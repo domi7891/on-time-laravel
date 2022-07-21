@@ -17,48 +17,45 @@ function MaterialSelection() {
                 <div
                     className={`flex justify-start gap-3 sm:gap-5 overflow-x-auto`}
                 >
-                    {hasColor(product.type, "Standard", product.color) && (
-                        <Material
-                            name="standard"
-                            title="Standard"
-                            img={`Material/standard_${mapColor(
-                                product.color ?? "Schwarz"
-                            )}.jpg`}
-                            current={product.material}
-                            type="Hardcover"
-                            imgStyle="-left-[20%]"
-                            imgContainerStyle="w-[125%]"
-                            handleChange={(title) => changeMaterial(title)}
-                        />
-                    )}
-                    {hasColor(product.type, "Leder", product.color) && (
-                        <Material
-                            name="leder"
-                            title="Leder"
-                            img={`Material/leder_${mapColor(
-                                product.color ?? "Schwarz"
-                            )}.jpg`}
-                            type="Hardcover"
-                            current={product.material}
-                            imgStyle="-left-[20%]"
-                            imgContainerStyle="w-[125%]"
-                            handleChange={(title) => changeMaterial(title)}
-                        />
-                    )}
-                    {hasColor(product.type, "Leinen", product.color) && (
-                        <Material
-                            name="leinen"
-                            title="Leinen"
-                            img={`Material/leinen_${mapColor(
-                                product.color ?? "Schwarz"
-                            )}.jpg`}
-                            type="Hardcover"
-                            current={product.material}
-                            imgStyle="-left-[20%]"
-                            imgContainerStyle="w-[125%]"
-                            handleChange={(title) => changeMaterial(title)}
-                        />
-                    )}
+                    <Material
+                        name="standard"
+                        title="Standard"
+                        img={`Material/standard_${mapColor(
+                            product.color ?? "Schwarz"
+                        )}.jpg`}
+                        current={product.material}
+                        color={product.color}
+                        type="Hardcover"
+                        imgStyle="-left-[20%]"
+                        imgContainerStyle="w-[125%]"
+                        handleChange={(title) => changeMaterial(title)}
+                    />
+                    <Material
+                        name="leder"
+                        title="Leder"
+                        img={`Material/leder_${mapColor(
+                            product.color ?? "Schwarz"
+                        )}.jpg`}
+                        type="Hardcover"
+                        color={product.color}
+                        current={product.material}
+                        imgStyle="-left-[20%]"
+                        imgContainerStyle="w-[125%]"
+                        handleChange={(title) => changeMaterial(title)}
+                    />
+                    <Material
+                        name="leinen"
+                        title="Leinen"
+                        img={`Material/leinen_${mapColor(
+                            product.color ?? "Schwarz"
+                        )}.jpg`}
+                        type="Hardcover"
+                        color={product.color}
+                        current={product.material}
+                        imgStyle="-left-[20%]"
+                        imgContainerStyle="w-[125%]"
+                        handleChange={(title) => changeMaterial(title)}
+                    />
                 </div>
             )}
             {product.type == "Spiralbindung" && (
