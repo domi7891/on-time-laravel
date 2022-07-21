@@ -7,7 +7,6 @@ import Color from "./selections/Color";
 function ColorSelection() {
     const { product, changeColor } = useContext(ProductContext);
     const [colors, setColors] = useState([]);
-    console.log("Colors", product.color);
     useEffect(() => {
         const cols = getColors(product.type, product.material);
         setColors(cols);
