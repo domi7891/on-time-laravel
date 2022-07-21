@@ -11,8 +11,8 @@ const ProductContext = React.createContext();
 
 const BASE_FOLDER = "/images/products/";
 
-export function ProductProvider({ type, children }) {
-    const [product, setProduct] = useState(BASE_PRODUCT);
+export function ProductProvider({ type, initProduct, children }) {
+    const [product, setProduct] = useState(initProduct);
     const [totals, setTotals] = useState(TOTALS);
 
     const embPermitted = () => {

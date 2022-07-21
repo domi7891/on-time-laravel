@@ -34,7 +34,7 @@ function PrintSelection() {
             <Spacer className="xs:via-gray-300/30 xs:to-transparent" />
 
             <div
-                className={`w-full flex xs:flex-col justify-start gap-4 xs:gap-2 sm:gap-5 px-2 pt-1`}
+                className={`w-full flex xs:flex-col justify-start gap-6 xs:gap-2 sm:gap-5 px-2 pt-1`}
             >
                 <Checkbox
                     type="radio"

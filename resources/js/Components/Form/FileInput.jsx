@@ -13,6 +13,7 @@ function FileInput({
     required,
     isFocused,
     handleChange = () => {},
+    onRemove = () => {},
 }) {
     const input = useRef();
     const [files, setFiles] = useState({});
@@ -48,6 +49,7 @@ function FileInput({
         });
         input.current.files = dt.files;
         setFiles(input.current.files);
+        onRemove(e, key);
     };
 
     const disabled = () => {
@@ -56,13 +58,15 @@ function FileInput({
 
     return (
         <div className={containerClass}>
-            <label
-                className={`block text-sm font-medium text-gray-600 ${labelClass} ${
-                    required ? "after:content-['*'] after:text-red-400" : ""
-                }`}
-            >
-                {title}
-            </label>
+            {title && (
+                <label
+                    className={`block text-sm font-medium text-gray-600 ${labelClass} ${
+                        required ? "after:content-['*'] after:text-red-400" : ""
+                    }`}
+                >
+                    {title}
+                </label>
+            )}
             <label
                 htmlFor={name}
                 className={`relative rounded-md font-medium text-accent-400 hover:text-accent-800 ${
@@ -87,7 +91,7 @@ function FileInput({
                                             return (
                                                 <div
                                                     key={idx}
-                                                    className="w-full flex justify-between px-2 py-2.5"
+                                                    className={`w-full flex justify-between px-2 py-2.5`}
                                                 >
                                                     <span>{file.name}</span>
                                                     <XIcon

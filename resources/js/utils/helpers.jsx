@@ -160,11 +160,11 @@ const hasColor = (type, material, color) => {
         return PRODUCT_COLORS[type.toLowerCase()][
             material.toLowerCase()
         ].includes(color);
-    }
-    if (type == "Softcover") {
+    } else if (type == "Softcover") {
         return PRODUCT_COLORS[type.toLowerCase()].includes(color);
+    } else {
+        return true;
     }
-    return false;
 };
 
 const materialByColor = (type, material, color) => {

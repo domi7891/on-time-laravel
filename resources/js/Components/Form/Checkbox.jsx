@@ -10,7 +10,7 @@ export default function Checkbox({
     labelClass = "",
 }) {
     return (
-        <label htmlFor={id} className="pr-4 flex items-center gap-3">
+        <label htmlFor={id} className="flex items-center gap-3">
             <div className="flex items-center h-5">
                 <input
                     id={id}

@@ -22,7 +22,7 @@ function Color({ name, color, current, hex, handleChange }) {
                 } ${
                     isChecked &&
                     "border-2 border-white ring-2 ring-accent-400 child:block"
-                }`}
+                } peer-focus-visible:ring-4 peer-focus-visible:ring-accent-400 peer-focus-visible:ring-opacity-40`}
                 style={{ backgroundColor: hex }}
             >
                 <CheckIcon

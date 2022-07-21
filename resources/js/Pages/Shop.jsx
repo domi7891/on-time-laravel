@@ -11,10 +11,13 @@ import MaterialSelection from "@/Components/shop/builder/MaterialSelection";
 import ColorSelection from "@/Components/shop/builder/ColorSelection";
 import PrintSelection from "@/Components/shop/builder/PrintSelection";
 import WeightSelection from "@/Components/shop/builder/WeightSelection";
+import PdfSelection from "@/Components/shop/builder/PdfSelection";
+import { BASE_PRODUCT } from "@/utils/helpers";
 
 function Shop({ facility, type }) {
+    const product = BASE_PRODUCT;
     return (
-        <ProductProvider type={type}>
+        <ProductProvider type={type} initProduct={product}>
             <PreviewProvider>
                 <div
                     id="shop"
@@ -31,6 +34,7 @@ function Shop({ facility, type }) {
                             <PrintSelection />
                             <WeightSelection />
                         </div>
+                        <PdfSelection />
                     </div>
                 </div>
             </PreviewProvider>
