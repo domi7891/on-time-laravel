@@ -5,7 +5,10 @@ import React, { useContext } from "react";
 import Spacer from "../Spacer";
 
 function PrintSelection() {
-    const { product, changeMaterial } = useContext(ProductContext);
+    const { product, changeProduct } = useContext(ProductContext);
+
+    const change = (title) => changeProduct("print", title);
+
     return (
         <div className="w-full space-y-2">
             <div className="text-left flex flex-col -space-y-0.5">
@@ -39,6 +42,7 @@ function PrintSelection() {
                     name="print"
                     title="Einseitig"
                     checked={product.print == "Einseitig"}
+                    handleChange={change}
                 />
                 <Checkbox
                     type="radio"
@@ -46,6 +50,7 @@ function PrintSelection() {
                     name="print"
                     title="Doppelseitig"
                     checked={product.print == "Doppelseitig"}
+                    handleChange={change}
                 />
             </div>
         </div>

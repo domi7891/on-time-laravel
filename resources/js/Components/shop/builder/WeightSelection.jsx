@@ -5,7 +5,8 @@ import React, { useContext } from "react";
 import Spacer from "../Spacer";
 
 function WeightSelection() {
-    const { product, changeMaterial } = useContext(ProductContext);
+    const { product, changeProduct } = useContext(ProductContext);
+    const change = (title) => changeProduct("paper_weight", title);
     return (
         <div className="w-full space-y-2">
             <div className="text-left flex flex-col -space-y-0.5">
@@ -33,6 +34,7 @@ function WeightSelection() {
                     name="weight"
                     title="80g"
                     checked={product.paper_weight == "80g"}
+                    handleChange={change}
                 />
                 <Checkbox
                     type="radio"
@@ -40,6 +42,7 @@ function WeightSelection() {
                     name="weight"
                     title="100g"
                     checked={product.paper_weight == "100g"}
+                    handleChange={change}
                 />
             </div>
         </div>

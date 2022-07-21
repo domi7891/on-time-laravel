@@ -16,7 +16,7 @@ export default function Checkbox({
                     id={id}
                     name={name}
                     defaultChecked={checked}
-                    onChange={(e) => toggleEqp("USB", e.target.checked)}
+                    onChange={(e) => handleChange(title)}
                     type={type}
                     className="focus:border-solid focus:border focus:border-accent-400/50 focus:ring focus:ring-accent-400 focus:ring-opacity-25 h-4 w-4 text-accent-400 border-gray-300 rounded-full"
                 />
