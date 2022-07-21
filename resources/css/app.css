@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* after:right-1/2 after:translate-x-1/2 */
+
+@layer components {
+    .mobile-nav-active {
+        @apply after:w-8 after:absolute after:bg-accent-400 after:left-0 after:top-[40%] after:-translate-y-1/2 after:text-5xl after:-z-10 after:tracking-wider after:text-center;
+    }
+
+    .mobile-nav-active span {
+        @apply text-2xl;
+    }
+}
+
+@layer utilities {
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .no-scrollbar {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+    }
+
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 2px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    /* Handle */
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        @apply bg-gray-400;
+    }
+
+    /* Handle on hover */
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .custom-number-input input:focus {
+        outline: none !important;
+    }
+
+    .custom-number-input button:focus {
+        outline: none !important;
+    }
+}
