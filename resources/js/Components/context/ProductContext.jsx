@@ -110,15 +110,9 @@ export function ProductProvider({ type, children }) {
     };
 
     const changeProduct = (key, value) => {
-        if (key == "type" && value == "Hardcover") {
-            setProduct((oldValue) => {
-                return { ...oldValue, [key]: value, material: "Leder" };
-            });
-        } else {
-            setProduct((oldValue) => {
-                return { ...oldValue, [key]: value };
-            });
-        }
+        setProduct((oldValue) => {
+            return { ...oldValue, [key]: value };
+        });
     };
 
     const changeProductQty = (qty, setQty = false) => {
