@@ -3,7 +3,12 @@ import React, { useState } from "react";
 import { usePopper } from "react-popper";
 import { QuestionMarkCircleIcon } from "@heroicons/react/solid";
 
-function Hint({ content, children, placement = "auto-start" }) {
+function Hint({
+    content,
+    children,
+    placement = "auto-start",
+    contentClass = "",
+}) {
     let [referenceElement, setReferenceElement] = useState();
     let [popperElement, setPopperElement] = useState();
     let { styles, attributes } = usePopper(referenceElement, popperElement, {
@@ -39,7 +44,9 @@ function Hint({ content, children, placement = "auto-start" }) {
                 >
                     {children}
                     {!children && content && (
-                        <p className="text-sm text-left w-48">{content}</p>
+                        <p className={`text-sm text-left ${contentClass}`}>
+                            {content}
+                        </p>
                     )}
                 </Popover.Panel>
             </Transition>
