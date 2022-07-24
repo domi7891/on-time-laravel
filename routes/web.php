@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BasketsController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductPricesController;
 use App\Http\Controllers\RatingController;
 use Illuminate\Foundation\Application;
@@ -91,6 +92,8 @@ Route::get('/add', [ProductPricesController::class, 'getProductPrice']);
 
 Route::prefix('/product')->group(function () {
     Route::post('/calculatePrice', [ProductPricesController::class, 'calculatePrice']);
+    Route::post('/pdf', [ProductController::class, 'uploadPdf']);
+    Route::post('/removePdf', [ProductController::class, 'removePdf']);
     // Route::get('/get', [BasketsController::class, 'retrieveBasket']);
     // Route::post('/addProduct', [BasketsController::class, 'addItemToCart'])->middleware('calc');
     // Route::post('/removeProduct', [BasketsController::class, 'removeItemFromCart'])->middleware('calc');
