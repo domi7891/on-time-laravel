@@ -13,7 +13,7 @@ function ProductDetails() {
                     <div>
                         Bindung: {product.type}
                         <span className="float-right">
-                            € {formatePrice(totals.basePrice)}
+                            {formatePrice(totals.basePrice)}
                         </span>
                     </div>
                     {product.material && (
@@ -171,10 +171,13 @@ function ProductDetails() {
                     </p>
                 </div>
             </div>
+
             <div className="divide-y divide-gray-400 space-y-1">
                 <h3 className="text-lg">PDF</h3>
                 <div className="divide-y divide-gray-200 child:py-2">
-                    {product.pdf && <p>{product.pdf.displayName}</p>}
+                    {product.pdf && (
+                        <p className="truncate">{product.pdf.display_name}</p>
+                    )}
                     <p>Seitenzahl: {product.pages}</p>
                 </div>
             </div>

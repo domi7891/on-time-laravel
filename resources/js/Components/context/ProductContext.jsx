@@ -14,6 +14,7 @@ const BASE_FOLDER = "/images/products/";
 export function ProductProvider({ type, initProduct, children }) {
     const [product, setProduct] = useState(initProduct);
     const [totals, setTotals] = useState(TOTALS);
+    const [error, setError] = useState();
 
     const embPermitted = () => {
         return (
@@ -35,10 +36,14 @@ export function ProductProvider({ type, initProduct, children }) {
 
     useEffect(() => {
         post("/product/calculatePrice", product).then((res) => {
-            if (res.error) {
-                changeMaterial;
+            const { disabled, ...rest } = res.data.error;
+            if (!rest?.success) {
+                const { change, ...other } = rest;
+                changeProductMultiple(change);
+            } else {
+                setTotals(res.data.totals);
             }
-            setTotals(res.data);
+            setError({ disabled });
         });
     }, [product]);
 
@@ -70,7 +75,9 @@ export function ProductProvider({ type, initProduct, children }) {
                         : "Schwarz";
                 return { ...rest, type, material, color, embossing };
             } else if (type == "Spiralbindung") {
-                material = "Kunststoff";
+                material = error?.disabled.includes("Kunststoff")
+                    ? "Draht"
+                    : "Kunststoff";
                 return { ...rest, type, material, embossing };
             } else {
                 color =
@@ -104,7 +111,6 @@ export function ProductProvider({ type, initProduct, children }) {
                 oldValue.material,
                 color
             );
-            console.log(material);
             return { ...rest, color, material };
         });
     };
@@ -112,6 +118,21 @@ export function ProductProvider({ type, initProduct, children }) {
     const changeProduct = (key, value) => {
         setProduct((oldValue) => {
             return { ...oldValue, [key]: value };
+        });
+    };
+
+    const removeKey = (key) => {
+        let { ...rest } = oldValue;
+        setProduct((oldValue) => {
+            delete oldValue[key];
+            return { ...oldValue };
+        });
+    };
+
+    const changeProductMultiple = (newVals) => {
+        setProduct((oldValue) => {
+            const newObj = { ...oldValue, ...newVals };
+            return newObj;
         });
     };
 
@@ -137,12 +158,15 @@ export function ProductProvider({ type, initProduct, children }) {
             value={{
                 product,
                 totals,
+                error,
                 hasEmbossing,
                 changeHasEmbossing,
                 logo,
                 showLogo,
                 changeLogo,
                 changeProduct,
+                changeProductMultiple,
+                removeKey,
                 changeType,
                 changeMaterial,
                 changeColor,

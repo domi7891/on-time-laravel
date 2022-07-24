@@ -82,8 +82,24 @@ if (!function_exists('calcEquipmentPrice')) {
 if (!function_exists('countPDFPages')) {
   function countPDFPages($path)
   {
-    $pdftext = file_get_contents($path);
-    $num = preg_match_all("/\/Page\W/", $pdftext, $dummy);
-    return $num;
+    $cmd = base_path() . '\pdfinfo.exe';  // Windows
+
+    $path = storage_path('app') . "\\" . str_replace("/", "\\", $path);
+    $command = "$cmd \"$path\"";
+    // Parse entire output
+    // Surround with double quotes if file name has spaces
+    exec($command, $output);
+
+    // Iterate through lines
+    $pagecount = 0;
+    foreach ($output as $op) {
+      // Extract the number
+      if (preg_match("/Pages:\s*(\d+)/i", $op, $matches) === 1) {
+        $pagecount = intval($matches[1]);
+        break;
+      }
+    }
+
+    return $pagecount;
   }
 }

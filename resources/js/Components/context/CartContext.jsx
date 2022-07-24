@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { get, post } from "axios";
 import ToastContext from "./ToastContext";
+import { Inertia } from "@inertiajs/inertia";
 
 const CartContext = React.createContext();
 
@@ -23,11 +24,19 @@ export function CartProvider({ children }) {
 
     const addToCart = (product) => {
         post("/basket/addProduct", product).then((res) => {
-            setCart(res.data);
-            createToast(
-                "Neues Produkt hinzugefügt!",
-                "Ihr Produkt wurde zum Warenkorb hinzugefügt"
-            );
+            if (res.error) {
+                createToast(
+                    "Neues Produkt hinzugefügt!",
+                    "Ihr Produkt wurde zum Warenkorb hinzugefügt"
+                );
+            } else {
+                setCart(res.data);
+                createToast(
+                    "Neues Produkt hinzugefügt!",
+                    "Ihr Produkt wurde zum Warenkorb hinzugefügt"
+                );
+                Inertia.get(window.location.href);
+            }
         });
     };
 
@@ -46,6 +55,10 @@ export function CartProvider({ children }) {
         });
     };
 
+    const productCount = () => {
+        return cart.items?.length;
+    };
+
     return (
         <CartContext.Provider
             value={{
@@ -54,6 +67,7 @@ export function CartProvider({ children }) {
                 removeProduct,
                 reloadCart,
                 changeProduct,
+                productCount,
             }}
         >
             {children}

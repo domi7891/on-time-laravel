@@ -43,7 +43,12 @@ class BasketsController extends Controller
         $pricesCont = new ProductPricesController();
         $totals = $pricesCont->calculatePrice($request);
         $product['productId'] = str_replace("-", "", Str::uuid()->toString());
-        $product['totals'] = $totals;
+        $product['totals'] = $totals['totals'];
+        if (count($request->session()->get('cart.items')) == 0) {
+            $pdf = $product['pdf'];
+            $request->session()->put('cart.pdf', $pdf);
+        }
+        unset($product['pdf']);
         $request->session()->push('cart.items', $product);
         return $request->session()->get('cart');
     }
@@ -60,6 +65,11 @@ class BasketsController extends Controller
             return $item['productId'] != $input['id'];
         }));
         $request->session()->put('cart.items', $items);
+        if (count($items) == 0) {
+            $prodCont = new ProductController();
+            $prodCont->removePdf($request, $request->session()->get('cart.pdf.name'));
+            $request->session()->forget('cart.pdf');
+        }
         return $request;
     }
 
