@@ -4,7 +4,7 @@ import Spacer from "../Spacer";
 import Type from "./selections/Type";
 
 function TypeSelection() {
-    const { product, changeType } = useContext(ProductContext);
+    const { product, error, changeType } = useContext(ProductContext);
     return (
         <div className="space-y-2">
             <h3 className="text-left text-xl">Bindungsart</h3>
@@ -27,6 +27,7 @@ function TypeSelection() {
                     title="Spiralbindung"
                     current={product.type}
                     handleChange={(title) => changeType(title)}
+                    disabled={error?.disabled.includes("Spiralbindung")}
                 />
             </div>
         </div>

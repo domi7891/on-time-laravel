@@ -11,6 +11,7 @@ function Material({
     imgContainerStyle = "",
     handleChange = () => {},
     current,
+    disabled = false,
 }) {
     const isChecked = title == current;
     return (
@@ -25,7 +26,7 @@ function Material({
                     name="material"
                     className="sr-only peer"
                     onChange={() => handleChange(title)}
-                    defaultChecked={isChecked}
+                    defaultChecked={disabled ? false : isChecked}
                 />
                 <div
                     title={title}

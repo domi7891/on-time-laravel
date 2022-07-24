@@ -66,22 +66,46 @@ class ProductPricesController extends Controller
         return json_encode($price);
     }
 
-    private function createError($type, $material)
+    private function productError($type, $material, $pages)
     {
+        $error = array('success' => true, 'disabled' => array());
+        // return null;
+        if ($pages > 70) {
+            $error['text'] = 'Die Seitenanzahl beträgt mehr als 70 Seiten! Spiralbindung mit Draht steht nun nicht mehr zur Auswahl zur Verfügung!';
+            $error['disabled'] = array('Draht');
+            if ($pages > 250) {
+                $error['text'] = 'Die Seitenanzahl beträgt mehr als 250 Seiten! Spiralbindung sowohl mit Draht als auch mit Kunststoff steht nun nicht mehr zur Auswahl zur Verfügung!';
+                $error['disabled'] = array('Spiralbindung');
+                if ($type == 'Spiralbindung') {
+                    $error['change'] = array('type' => 'Hardcover', 'material' => 'Standard', 'color' => 'Schwarz');
+                    $error['success'] = false;
+                }
+            } else {
+                if ($type == 'Spiralbindung' && $material == 'Draht') {
+                    $error['change'] = array('material' => 'Kunststoff');
+                    $error['success'] = false;
+                }
+            }
+            // $error = array('success' => false, 'text' => 'Die Seitenanzahl beträgt mehr als 70 Seiten! Spiralbindung mit Draht steht nun nicht mehr zur Auswahl zur Verfügung!', 'disabled' => array('Draht'), 'change' => array('material' => 'Kunststoff'));
+        } else {
+        }
         // if($type)
         // return array('error' => 'Zu viele Seiten für eine Spiralbindung Draht', );
-        return array('total' => 0, 'basePrice' => 0, 'totalEquipment' => 0, 'totalExtras' => 0, 'totalUnit' => 0, "extras" => array(), "equipment" => array("CD" => array("total" => 0, "value" => 0), "USB" => array("total" => 0, "value" => 0)));
+        // return array('total' => 0, 'basePrice' => 0, 'totalEquipment' => 0, 'totalExtras' => 0, 'totalUnit' => 0, "extras" => array(), "equipment" => array("CD" => array("total" => 0, "value" => 0), "USB" => array("total" => 0, "value" => 0)));
+        return $error;
     }
 
     public function calculatePrice(Request $request)
     {
         $data = $request->all();
+        $error = $this->productError($data['type'], array_key_exists('material', $data) ? $data['material'] : null, $data['pages']);
+        if (!$error['success']) return array('error' => $error);
         $basePrice = ProductPrices::where([
             ['pages', '>=', $data['pages']],
             ['type', $data['type']],
             ['material', array_key_exists('material', $data) ? $data['material'] : null]
         ])->orderBy('pages')->first();
-        if (!$basePrice) return $this->createError($data['type'], $data['material']);
+        // if (!$basePrice) return $this->createError();
         $basePrice = $basePrice['price'];
         $totalExtras = 0;
         $totalEquipment = 0;
@@ -124,6 +148,6 @@ class ProductPricesController extends Controller
         $total = $totalUnit * $data['quantity'];
         $total += $totalEquipment;
 
-        return array('total' => $total, 'basePrice' => $basePrice, 'totalEquipment' => $totalEquipment, 'totalExtras' => $totalExtras, 'totalUnit' => $totalUnit, "extras" => $extrasDesc, "equipment" => $equipmentDesc);
+        return array('totals' => array('total' => $total, 'basePrice' => $basePrice, 'totalEquipment' => $totalEquipment, 'totalExtras' => $totalExtras, 'totalUnit' => $totalUnit, "extras" => $extrasDesc, "equipment" => $equipmentDesc), 'error' => $error);
     }
 }

@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 
-function Type({ title, name, current, handleChange = () => {} }) {
+function Type({
+    title,
+    name,
+    current,
+    handleChange = () => {},
+    disabled = false,
+}) {
     const calcOrigin = (old) => {
         return title == "Hardcover"
             ? "after:origin-right"
@@ -29,7 +35,8 @@ function Type({ title, name, current, handleChange = () => {} }) {
                 type="radio"
                 name="type"
                 className="sr-only peer"
-                defaultChecked={isChecked}
+                defaultChecked={disabled ? false : isChecked}
+                disabled={disabled}
                 onChange={(e) => handleChange(title)}
             />
             <div
@@ -37,7 +44,13 @@ function Type({ title, name, current, handleChange = () => {} }) {
                     isChecked && "after:scale-x-100"
                 }`}
             >
-                <span className={`text-base sm:text-lg relative`}>{title}</span>
+                <span
+                    className={`text-base sm:text-lg relative ${
+                        disabled ? "text-gray-400" : "text-black"
+                    }`}
+                >
+                    {title}
+                </span>
             </div>
         </label>
     );

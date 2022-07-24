@@ -23,7 +23,7 @@ function Hint({
         ],
     });
     return (
-        <Popover className="relative flex items-center">
+        <Popover className="relative flex items-center z-40">
             <Popover.Button ref={setReferenceElement}>
                 <QuestionMarkCircleIcon className="w-6 h-6 text-accent-400" />
             </Popover.Button>
@@ -37,7 +37,7 @@ function Hint({
                 leaveTo="opacity-0"
             >
                 <Popover.Panel
-                    className={`absolute z-10 bg-white p-3 drop-shadow-lg shadow-md`}
+                    className={`absolute bg-white p-3 drop-shadow-lg shadow-md`}
                     ref={setPopperElement}
                     style={styles.popper}
                     {...attributes.popper}

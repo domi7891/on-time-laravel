@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ShoppingBagIcon } from "@heroicons/react/outline";
 import { SearchIcon } from "@heroicons/react/solid";
 import Cart from "../Cart/Cart";
@@ -15,6 +15,13 @@ function SearchSection() {
     const searchActive = () => {
         return search.length > 0;
     };
+
+    useEffect(() => {
+        if (cart?.items?.length == 0) {
+            setOpenCart(false);
+        }
+    }, [cart]);
+
     return (
         <div className="flex-1 lg:flex-none flex lg:-mt-3 items-center gap-4 justify-end">
             <div className="w-auto sm:w-40 md:w-44 flex justify-end">

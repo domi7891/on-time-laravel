@@ -22,20 +22,20 @@ const TOTALS = {
 };
 
 const BASE_PRODUCT = {
-    type: "Softcover",
-    // material: "Standard",
-    color: "Schwarz",
+    type: "Spiralbindung",
+    material: "Draht",
+    // color: "Schwarz",
     print: "Einseitig",
     paper_weight: "100g",
     quantity: 1,
     embossing: true,
-    pdf: {
-        displayName: "Diplomarbeit.pdf",
-    },
+    // pdf: {
+    //     displayName: "Diplomarbeit.pdf",
+    // },
     images: {
         front: "/images/products/Produktfotos Hardcover Leder/Small/hardcover_leder_front_black.jpg",
     },
-    pages: 100,
+    pages: 75,
     embossing_options: {
         color: "Gold",
         method: "Tiefenprägung",

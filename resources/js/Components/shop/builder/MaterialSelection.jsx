@@ -5,7 +5,7 @@ import Spacer from "../Spacer";
 import Material from "./selections/Material";
 
 function MaterialSelection() {
-    const { product, changeMaterial } = useContext(ProductContext);
+    const { product, error, changeMaterial } = useContext(ProductContext);
 
     useEffect(() => {}, [product.color]);
 
@@ -60,24 +60,28 @@ function MaterialSelection() {
             )}
             {product.type == "Spiralbindung" && (
                 <div className={`flex gap-5 overflow-x-auto"`}>
-                    <Material
-                        name="draht"
-                        title="Draht"
-                        img="Material/draht.jpg"
-                        type="Spiralbindung"
-                        current={product.material}
-                        imgStyle="-bottom-6"
-                        handleChange={(title) => changeMaterial(title)}
-                    />
-                    <Material
-                        name="kunststoff"
-                        title="Kunststoff"
-                        img="Material/kunststoff.jpg"
-                        type="Spiralbindung"
-                        current={product.material}
-                        imgStyle="-bottom-3"
-                        handleChange={(title) => changeMaterial(title)}
-                    />
+                    {!error?.disabled.includes("Draht") && (
+                        <Material
+                            name="draht"
+                            title="Draht"
+                            img="Material/draht.jpg"
+                            type="Spiralbindung"
+                            current={product.material}
+                            imgStyle="-bottom-6"
+                            handleChange={(title) => changeMaterial(title)}
+                        />
+                    )}
+                    {!error?.disabled.includes("Kunststoff") && (
+                        <Material
+                            name="kunststoff"
+                            title="Kunststoff"
+                            img="Material/kunststoff.jpg"
+                            type="Spiralbindung"
+                            current={product.material}
+                            imgStyle="-bottom-3"
+                            handleChange={(title) => changeMaterial(title)}
+                        />
+                    )}
                 </div>
             )}
         </div>
