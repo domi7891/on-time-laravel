@@ -66,56 +66,140 @@ class ProductPricesController extends Controller
         return json_encode($price);
     }
 
-    private function productError($type, $material, $pages)
+    private function productError($type, $material, $color, $pages, $paper_weight, $print, $disabled)
     {
-        $error = array('success' => true, 'disabled' => array());
-        // return null;
+
+        $error = array('success' => true, 'disabled' => array(), 'text' => array());
+        if ($pages < 0) {
+            $error['success'] = false;
+            $error['change'] = array('pages' => 0);
+            return $error;
+        }
+        if ($pages > 540) {
+            array_push($error['text'], 'Bitte Seitenanzahl überprüfen. Maximal 540 Seiten möglich. Falls Sie mehr benötigen, kontaktieren Sie uns bitte direkt über unser Kontaktformular oder per E-Mail.');
+            $error['title'] = 'Seitenanzahlfehler!';
+            $error['success'] = false;
+            $error['showError'] = true;
+            $error['change'] = array('pages' => 540);
+            return $error;
+        }
+
+
+
+        $pagesError = null;
+        $setDouble = false;
+
+        if (
+            $type == 'Hardcover' &&
+            $material == 'Leinen' &&
+            $color == 'Weiß'
+        ) {
+            if ($paper_weight == '80g') {
+                if ($pages > 125 && $pages <= 250) {
+                    $pagesError = 125;
+                    $setDouble = true;
+                    $error['change']['print'] = 'Doppelseitig';
+                } else if ($pages > 250) {
+                    $error['success'] = false;
+                    $pagesError = 250;
+                }
+            } else {
+                if ($pages > 120 && $pages <= 240) {
+                    $pagesError = 120;
+                    $setDouble = true;
+                    $error['change']['print'] = 'Doppelseitig';
+                } else if ($pages > 240) {
+                    $error['success'] = false;
+                    $pagesError = 240;
+                }
+            }
+        } else if ($type == 'Hardcover' || $type == 'Softcover') {
+            if ($paper_weight == '80g') {
+                if ($pages > 275 && $pages <= 550) {
+                    $pagesError = 275;
+                    $setDouble = true;
+                    $error['change']['print'] = 'Doppelseitig';
+                } else if ($pages > 550) {
+                    $error['success'] = false;
+                    $pagesError = 550;
+                }
+            } else {
+                if ($pages > 270 && $pages <= 540) {
+                    $pagesError = 270;
+                    $setDouble = true;
+                    $error['change']['print'] = 'Doppelseitig';
+                } else if ($pages > 540) {
+                    $error['success'] = false;
+                    $pagesError = 540;
+                }
+            }
+        }
+
+        if (!$error['success']) {
+            array_push($error['text'], "Bitte Seitenanzahl überprüfen. Maximal $pagesError Seiten möglich. Falls Sie mehr benötigen, kontaktieren Sie uns bitte direkt über unser Kontaktformular oder per E-Mail.");
+            $error['title'] = 'Seitenanzahlfehler!';
+            $error['showError'] = true;
+            $error['change'] = array('pages' => $pagesError);
+            $pages = $pagesError;
+        }
+
+        if ($setDouble && $print != 'Doppelseitig') {
+            array_push($error['text'], "Die Seitenanzahl beträgt mehr als
+            $pagesError Seiten! Es steht Ihnen nur noch ein doppelseitiger Druck zur Verfügung.");
+            $error['showError'] = true;
+            $error['success'] = false;
+        }
+
         if ($pages > 70) {
-            $error['text'] = 'Die Seitenanzahl beträgt mehr als 70 Seiten! Spiralbindung mit Draht steht nun nicht mehr zur Auswahl zur Verfügung!';
-            $error['disabled'] = array('Draht');
             if ($pages > 250) {
-                $error['text'] = 'Die Seitenanzahl beträgt mehr als 250 Seiten! Spiralbindung sowohl mit Draht als auch mit Kunststoff steht nun nicht mehr zur Auswahl zur Verfügung!';
+                if (!is_null($disabled) && !in_array('Spiralbindung', $disabled)) {
+                    $error['showError'] = true;
+                    array_push($error['text'], 'Die Seitenanzahl beträgt mehr als 250 Seiten! Spiralbindung sowohl mit Draht als auch mit Kunststoff steht nun nicht mehr zur Auswahl zur Verfügung!');
+                }
                 $error['disabled'] = array('Spiralbindung');
                 if ($type == 'Spiralbindung') {
                     $error['change'] = array('type' => 'Hardcover', 'material' => 'Standard', 'color' => 'Schwarz');
                     $error['success'] = false;
                 }
             } else {
+                if (is_null($disabled) || (!in_array('Draht', $disabled) && !in_array('Spiralbindung', $disabled))) {
+                    $error['showError'] = true;
+                    array_push($error['text'], 'Die Seitenanzahl beträgt mehr als 70 Seiten! Spiralbindung mit Draht steht nun nicht mehr zur Auswahl zur Verfügung!');
+                }
+                $error['disabled'] = array('Draht');
                 if ($type == 'Spiralbindung' && $material == 'Draht') {
                     $error['change'] = array('material' => 'Kunststoff');
                     $error['success'] = false;
                 }
             }
-            // $error = array('success' => false, 'text' => 'Die Seitenanzahl beträgt mehr als 70 Seiten! Spiralbindung mit Draht steht nun nicht mehr zur Auswahl zur Verfügung!', 'disabled' => array('Draht'), 'change' => array('material' => 'Kunststoff'));
-        } else {
         }
-        // if($type)
-        // return array('error' => 'Zu viele Seiten für eine Spiralbindung Draht', );
-        // return array('total' => 0, 'basePrice' => 0, 'totalEquipment' => 0, 'totalExtras' => 0, 'totalUnit' => 0, "extras" => array(), "equipment" => array("CD" => array("total" => 0, "value" => 0), "USB" => array("total" => 0, "value" => 0)));
         return $error;
     }
 
     public function calculatePrice(Request $request)
     {
-        $data = $request->all();
-        $error = $this->productError($data['type'], array_key_exists('material', $data) ? $data['material'] : null, $data['pages']);
+        $in = $request->all();
+        $data = $in['product'];
+        $pages = $data['pages'];
+        if ($pages == "" || is_null($pages)) $pages = 0;
+        $material =  array_key_exists('material', $data) ? $data['material'] : null;
+        $color =  array_key_exists('color', $data) ? $data['color'] : null;
+        $error = $this->productError($data['type'], $material, $color, $pages, $data['paper_weight'], $data['print'], $in['disabled']);
         if (!$error['success']) return array('error' => $error);
         $basePrice = ProductPrices::where([
-            ['pages', '>=', $data['pages']],
+            ['pages', '>=', $pages],
             ['type', $data['type']],
-            ['material', array_key_exists('material', $data) ? $data['material'] : null]
+            ['material', $material]
         ])->orderBy('pages')->first();
-        // if (!$basePrice) return $this->createError();
         $basePrice = $basePrice['price'];
         $totalExtras = 0;
         $totalEquipment = 0;
 
         $extrasCont = new ProductExtrasController();
-        $extras = $extrasCont->getPrice($request);
+        $extras = $extrasCont->getPrice($request, $data);
         $extrasDesc = array();
         $equipment = $extrasCont->getEquipmentPrice($request);
         $equipmentDesc = array("CD" => array("total" => 0, "value" => 0), "USB" => array("total" => 0, "value" => 0));
-        // return $extras;
 
         foreach ($extras as $key => $value) {
             if ($value['type'] == 'prägung') {

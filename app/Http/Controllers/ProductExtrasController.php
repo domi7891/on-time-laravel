@@ -13,11 +13,12 @@ class ProductExtrasController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function getPrice(Request $request)
+    public function getPrice(Request $request, $data)
     {
-        $data = $request->all();
+        if (is_null($data))
+            $data = $request->all();
 
-        $extras = ProductExtras::when($request, function ($query, $data) {
+        $extras = ProductExtras::when($data, function ($query, $data) {
             $hasEmbossing = $data['embossing'];
             $embossing =  $data['embossing_options'];
             $emb_type = $embossing['method'];
