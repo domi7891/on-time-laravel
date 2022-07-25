@@ -10,6 +10,7 @@ function NumberInput({
     containerClass = "",
     inputClass = "",
     required,
+    showStepper = true,
     isFocused,
     handleChange = () => {},
     handleStep = () => {},
@@ -49,9 +50,14 @@ function NumberInput({
                 {title}
             </label>
             <div className="border border-gray-300 rounded-md shadow-sm flex gap-2 items-center py-2 px-2 h-full focus-within:border-solid focus-within:border focus-within:border-accent-400/50 focus-within:ring focus-within:ring-accent-400 focus-within:ring-opacity-25">
-                <button onClick={(e) => step(-1)} className="cursor-pointer">
-                    <MinusSmIcon className="w-4 h-4" />
-                </button>
+                {showStepper && (
+                    <button
+                        onClick={(e) => step(-1)}
+                        className="cursor-pointer"
+                    >
+                        <MinusSmIcon className="w-4 h-4" />
+                    </button>
+                )}
                 <input
                     type="number"
                     min={min}
@@ -66,9 +72,11 @@ function NumberInput({
                     onBlur={(e) => change(e)}
                 />
                 {/* <input type="number" style={{ appearance: "none" }} /> */}
-                <button onClick={(e) => step(1)} className="cursor-pointer">
-                    <PlusSmIcon className="w-4 h-4" />
-                </button>
+                {showStepper && (
+                    <button onClick={(e) => step(1)} className="cursor-pointer">
+                        <PlusSmIcon className="w-4 h-4" />
+                    </button>
+                )}
             </div>
         </div>
     );

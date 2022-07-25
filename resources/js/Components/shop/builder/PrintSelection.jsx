@@ -1,7 +1,7 @@
 import ProductContext from "@/Components/context/ProductContext";
 import Checkbox from "@/Components/Form/Checkbox";
 import Hint from "@/Components/Hint";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Spacer from "../Spacer";
 
 function PrintSelection() {
@@ -20,12 +20,6 @@ function PrintSelection() {
                             Gesamtseitenanzahl angeben!
                         </p>
                     </Hint>
-                    {/* <Hint
-                        placement="auto"
-                        content="Bitte auch bei doppelseitigem Druck die
-                        Gesamtseitenanzahl angeben!"
-                        contentClass="w-[200px]"
-                    /> */}
                 </div>
                 <span className="text-left text-sm text-gray-500">
                     - Immer in Farbe -

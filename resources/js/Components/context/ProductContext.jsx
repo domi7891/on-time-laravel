@@ -6,6 +6,7 @@ import {
 } from "@/utils/helpers";
 import React, { useContext, useEffect, useState } from "react";
 import { get, post } from "axios";
+import ToastContext from "./ToastContext";
 
 const ProductContext = React.createContext();
 
@@ -15,6 +16,8 @@ export function ProductProvider({ type, initProduct, children }) {
     const [product, setProduct] = useState(initProduct);
     const [totals, setTotals] = useState(TOTALS);
     const [error, setError] = useState();
+
+    const { createToast } = useContext(ToastContext);
 
     const embPermitted = () => {
         return (
@@ -35,15 +38,24 @@ export function ProductProvider({ type, initProduct, children }) {
     );
 
     useEffect(() => {
-        post("/product/calculatePrice", product).then((res) => {
-            const { disabled, ...rest } = res.data.error;
+        post("/product/calculatePrice", {
+            product: product,
+            disabled: error ? error.disabled : null,
+        }).then((res) => {
+            let { disabled, showError, text, title, ...rest } = res.data.error;
+            if (!disabled) disabled = [];
+            setError({ disabled });
+            if (showError) {
+                text.forEach((val) => {
+                    createToast(title ?? "Achtung!", val, true);
+                });
+            }
             if (!rest?.success) {
                 const { change, ...other } = rest;
-                changeProductMultiple(change);
+                if (change) changeProductMultiple(change);
             } else {
                 setTotals(res.data.totals);
             }
-            setError({ disabled });
         });
     }, [product]);
 

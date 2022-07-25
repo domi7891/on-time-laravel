@@ -1,4 +1,4 @@
-import { Fragment, useContext, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import {
     ExclamationCircleIcon,
@@ -8,18 +8,21 @@ import {
 import ToastContext from "@/Components/context/ToastContext";
 
 // const TOAST_TIME = 7500;
-const TOAST_TIME = 17500;
+const TOAST_TIME = 10000;
 const TOAST_SIZE = 400;
 
 function ToastNotification({ idx, toast }) {
     const { removeToast } = useContext(ToastContext);
+    const width = useRef();
+    const [size, setSize] = useState(TOAST_SIZE);
     const [show, setShow] = useState(false);
-    const [progress, setProgress] = useState(TOAST_SIZE);
+    const [progress, setProgress] = useState(size);
     let time = TOAST_TIME;
     let interval;
     const { id, title, content, alert } = toast;
 
     useEffect(() => {
+        setSize(width.current.clientWidth);
         setTimeout(() => setShow(true), 50);
     }, []);
 
@@ -37,8 +40,7 @@ function ToastNotification({ idx, toast }) {
                 setInterval(() => {
                     time -= 50;
                     setProgress(
-                        TOAST_SIZE -
-                            ((TOAST_TIME - time) / TOAST_TIME) * TOAST_SIZE
+                        size - ((TOAST_TIME - time) / TOAST_TIME) * size
                     );
                     if (time <= 0) {
                         setShow(false);
@@ -67,13 +69,16 @@ function ToastNotification({ idx, toast }) {
         <div
             id={idx}
             key={idx}
-            className={`relative transform transition-all ease-in-out duration-700 ${
-                show ? "-translate-x-5" : "translate-x-full"
-            } w-[400px] py-3 px-5 overflow-hidden shadow-xl rounded-md bg-white border z-10 ${
-                alert ? "border-red-500/30" : "border-green-500/30"
-            }`}
+            className={`w-full relative transform transition-all ease-in-out duration-1000 ${
+                show ? "translate-x-0" : "translate-x-full"
+            } flex justify-center sm:justify-end px-5`}
         >
-            <div>
+            <div
+                className={`relative w-full sm:w-[400px] py-3 px-5 overflow-hidden shadow-xl rounded-md bg-white border z-10 ${
+                    alert ? "border-red-500/30" : "border-green-500/30"
+                }`}
+                ref={width}
+            >
                 <div className="flex items-start gap-4">
                     <div>
                         {alert && (
