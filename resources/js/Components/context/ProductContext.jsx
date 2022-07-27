@@ -31,13 +31,26 @@ export function ProductProvider({ type, initProduct, children }) {
         product.embossing && embPermitted()
     );
     const [showLogo, setShowLogo] = useState(
-        product.embossing && product.embossing_options.schoollogo
+        product.embossing &&
+            product.embossing_options.schoollogo &&
+            product.embossing_options.method == "Tiefenprägung"
     );
     const [logo, setLogo] = useState(
         product.embossing_options.schoollogo_options.name
     );
 
     useEffect(() => {
+        console.log("Test");
+        checkInputs();
+    }, [
+        product.embossing,
+        JSON.stringify(product.embossing_options),
+        product.material,
+    ]);
+
+    useEffect(() => {
+        const check = checkInputs();
+        if (!check) return;
         post("/product/calculatePrice", {
             product: product,
             disabled: error ? error.disabled : null,
@@ -57,7 +70,83 @@ export function ProductProvider({ type, initProduct, children }) {
                 setTotals(res.data.totals);
             }
         });
-    }, [product]);
+    }, [
+        product.type,
+        product.material,
+        product.paper_weight,
+        product.embossing,
+        JSON.stringify(product.embossing_options.method),
+        JSON.stringify(product.embossing_options.position),
+        JSON.stringify(product.embossing_options.schoollogo),
+        product.pages,
+        product.quantity,
+        product.a3,
+        JSON.stringify(product.a3_sites),
+        JSON.stringify(product.equipment),
+    ]);
+
+    useEffect(() => {
+        changeHasEmbossing();
+    }, [product.embossing]);
+
+    /* CHECK EMBOSSING OPTIONS */
+
+    const checkInputs = () => {
+        checkEmbossingColor();
+        checkEmbossingPosition();
+        const logoCheck = checkLogo();
+        changeLogo(product.embossing_options.schoollogo_options.name, showLogo);
+        return logoCheck;
+    };
+
+    const checkEmbossingColor = () => {
+        if (
+            product.embossing_options.color == "Weiß" &&
+            (product.material != "Leinen" ||
+                product.embossing_options.method != "Digitalprägung")
+        ) {
+            changeEmbossingOptions("color", "Gold");
+        }
+    };
+
+    const checkEmbossingPosition = () => {
+        if (product.embossing_options.position == "Buchvorderseite") {
+            changeEmbossingTextMulitple({ front: true, back: false });
+        } else if (product.embossing_options.position == "Buchrücken") {
+            changeEmbossingTextMulitple({ front: false, back: true });
+        } else if (product.embossing_options.position == "Beides") {
+            changeEmbossingTextMulitple({ front: true, back: true });
+        }
+    };
+
+    const checkLogo = () => {
+        if (
+            product.embossing_options.method == "Digitalprägung" ||
+            product.embossing_options.position == "Buchrücken"
+        ) {
+            if (product.embossing_options.schoollogo) {
+                changeEmbossingOptions("schoollogo", false);
+                return false;
+            }
+        }
+        // else if (product.embossing_options.schoollogo_options.logoSelected) {
+        //     if (!product.embossing_options.schoollogo) {
+        //         changeEmbossingOptions("schoollogo", true);
+        //         return false;
+        //     }
+        // }
+        return true;
+    };
+
+    const checkHasLogo = () => {
+        return (
+            product.embossing &&
+            product.embossing_options.method == "Tiefenprägung" &&
+            product.embossing_options.position != "Buchrücken"
+        );
+    };
+
+    /* CHANGE PRODUCT PROPS */
 
     const changeHasEmbossing = (val) => {
         if (val) {
@@ -66,12 +155,12 @@ export function ProductProvider({ type, initProduct, children }) {
         setHasEmbossing(product.embossing && embPermitted());
     };
 
-    const changeLogo = (show, newLogo) => {
-        if ((!newLogo && !logo) || !hasEmbossing) {
+    const changeLogo = (newLogo, show) => {
+        if (product.embossing && product.embossing_options.schoollogo) {
+            setShowLogo(true);
+        } else {
             setShowLogo(false);
-            return;
         }
-        setShowLogo(show);
         setLogo(newLogo);
     };
 
@@ -111,25 +200,57 @@ export function ProductProvider({ type, initProduct, children }) {
             ) {
                 embossing = false;
             }
+
             return { ...rest, material, embossing };
         });
     };
 
     const changeColor = (color) => {
         setProduct((oldValue) => {
-            let { ...rest } = oldValue;
+            let { embossing, ...rest } = oldValue;
             const material = materialByColor(
                 oldValue.type,
                 oldValue.material,
                 color
             );
-            return { ...rest, color, material };
+            if (material == "Standard") embossing = false;
+            return { ...rest, color, material, embossing };
         });
     };
 
     const changeProduct = (key, value) => {
         setProduct((oldValue) => {
             return { ...oldValue, [key]: value };
+        });
+    };
+
+    const changeEmbossingOptions = (key, value) => {
+        setProduct((oldValue) => {
+            const { embossing_options } = oldValue;
+            embossing_options[key] = value;
+            return { ...oldValue, embossing_options };
+        });
+    };
+
+    const changeEmbossingText = (key, value) => {};
+
+    const changeEmbossingLogo = (key, value) => {
+        setProduct((oldValue) => {
+            const { embossing_options } = oldValue;
+            const { schoollogo_options } = embossing_options;
+            schoollogo_options[key] = value;
+            embossing_options["schoollogo_options"] = schoollogo_options;
+            return { ...oldValue, embossing_options };
+        });
+    };
+
+    const changeEmbossingTextMulitple = (newVals) => {
+        setProduct((oldValue) => {
+            const { embossing_options } = oldValue;
+            let { text } = embossing_options;
+            text = { ...text, ...newVals };
+            embossing_options["text"] = text;
+            return { ...oldValue, embossing_options };
         });
     };
 
@@ -176,6 +297,10 @@ export function ProductProvider({ type, initProduct, children }) {
                 logo,
                 showLogo,
                 changeLogo,
+                checkHasLogo,
+                changeEmbossingOptions,
+                changeEmbossingLogo,
+                changeEmbossingText,
                 changeProduct,
                 changeProductMultiple,
                 removeKey,
