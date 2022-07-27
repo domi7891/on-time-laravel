@@ -40,6 +40,10 @@ class ProductExtrasController extends Controller
                     if ($emb_position == 'Buchrücken' || $emb_type == 'Digitalprägung' && $emb_position == 'Beides') {
                         $query->where('emb_back', $embossing['text']['back_text']['position']);
                     }
+                } else {
+                    if ($emb_position == 'Buchrücken' && $emb_type == 'Digitalprägung') {
+                        $query->where('emb_back', $embossing['text']['back_text']['position']);
+                    }
                 }
 
                 if ($logo) {

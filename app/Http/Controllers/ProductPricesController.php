@@ -202,7 +202,7 @@ class ProductPricesController extends Controller
         $equipmentDesc = array("CD" => array("total" => 0, "value" => 0), "USB" => array("total" => 0, "value" => 0));
 
         foreach ($extras as $key => $value) {
-            if ($value['type'] == 'prägung') {
+            if ($value['type'] == 'prägung' && $value['price'] > 0) {
                 $totalExtras += $value['price'];
                 $extrasDesc['prägung'] = $value['price'];
             } else if ($value['type'] == 'logo') {
