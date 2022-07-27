@@ -3,6 +3,10 @@ import Dropdown from "@/Components/Form/Dropdown";
 import ProductContext from "@/Components/context/ProductContext";
 import { formatePrice } from "@/utils/helpers";
 
+const vals = Array(10)
+    .fill()
+    .map((_, i) => i + 1);
+
 function Equipment() {
     const { product, totals, changeEquipment } = useContext(ProductContext);
 
@@ -41,10 +45,11 @@ function Equipment() {
                     <div className="flex justify-between items-center mt-4">
                         <div className="relative">
                             <Dropdown
-                                contentClasses="flex flex-col divide-y"
+                                contentClasses="flex flex-col divide-y w-20"
                                 width="20"
                                 maxHeight="40"
                                 change={(qty) => changeEqp("CD", qty)}
+                                childArray={vals}
                             >
                                 <Dropdown.Trigger className="py-0.5">
                                     <span>
@@ -80,10 +85,11 @@ function Equipment() {
                     <div className="flex justify-between items-center mt-4">
                         <div className="relative">
                             <Dropdown
-                                contentClasses="flex flex-col divide-y"
+                                contentClasses="flex flex-col divide-y w-20"
                                 width="20"
                                 maxHeight="40"
                                 change={(qty) => changeEqp("USB", qty)}
+                                childArray={vals}
                             >
                                 <Dropdown.Trigger className="py-0.5">
                                     <span>

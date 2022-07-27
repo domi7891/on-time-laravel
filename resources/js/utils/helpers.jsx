@@ -22,9 +22,9 @@ const TOTALS = {
 };
 
 const BASE_PRODUCT = {
-    type: "Spiralbindung",
-    material: "Draht",
-    // color: "Schwarz",
+    type: "Hardcover",
+    material: "Leinen",
+    color: "Schwarz",
     print: "Einseitig",
     paper_weight: "100g",
     quantity: 1,
@@ -37,12 +37,13 @@ const BASE_PRODUCT = {
     },
     pages: 75,
     embossing_options: {
-        color: "Gold",
+        color: "Silber",
         method: "Tiefenprägung",
-        position: "Buchrücken",
+        position: "Beides",
         schoollogo: true,
         schoollogo_options: {
-            name: "BG 13 Fichtnergasse",
+            logoSelected: true,
+            name: "HLTW 13 Bergheidengasse",
         },
         custom: true,
         custom_options: {
@@ -97,6 +98,12 @@ const COLORS = {
     Grau: { name: "grey", hex: "#616161" },
     Beige: { name: "beige", hex: "#ebd9be" },
     Weiß: { name: "white", hex: "#ffffff" },
+};
+
+const EMBOSSING_COLORS = {
+    Gold: { name: "gold", hex: "#d4af37", red: 212, green: 175, blue: 55 },
+    Silber: { name: "silver", hex: "#c0c0c0", red: 192, green: 192, blue: 192 },
+    Weiß: { name: "white", hex: "#ffffff", red: 255, green: 255, blue: 255 },
 };
 
 let PRODUCT_COLORS = {
@@ -181,7 +188,6 @@ const materialByColor = (type, material, color) => {
             )) {
                 if (mat != "all") {
                     if (col.includes(color)) {
-                        console.log(mat, color);
                         return capitalizeFirstLetter(mat);
                     }
                 }
@@ -276,6 +282,7 @@ const drawSideText = (canvas, context, text, { red, green, blue }) => {
                 break;
         }
     }
+    context.restore();
 };
 
 const changeImageColor = (canvas, context, x, y, color) => {
@@ -325,6 +332,7 @@ export {
     getCookie,
     createCookie,
     COLORS,
+    EMBOSSING_COLORS,
     getColors,
     materialByColor,
 };

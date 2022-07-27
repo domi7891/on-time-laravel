@@ -74,7 +74,7 @@ function ToastNotification({ idx, toast }) {
             } flex justify-center sm:justify-end px-5`}
         >
             <div
-                className={`relative w-full sm:w-[400px] py-3 px-5 overflow-hidden shadow-xl rounded-md bg-white border z-10 ${
+                className={`pointer-events-auto relative w-full sm:w-[400px] py-3 px-5 overflow-hidden shadow-xl rounded-md bg-white border z-10 ${
                     alert ? "border-red-500/30" : "border-green-500/30"
                 }`}
                 ref={width}
@@ -95,10 +95,10 @@ function ToastNotification({ idx, toast }) {
                         )}
                     </div>
                     <div className="flex-1 flex flex-col items-start justify-between">
-                        <h2 className="text-base font-bold text-gray-900">
+                        <h2 className="text-sm font-bold text-gray-900">
                             {title}
                         </h2>
-                        <p className="text-gray-500">{content}</p>
+                        <p className="text-gray-500 text-sm">{content}</p>
                     </div>
                     <div className="flex h-7 items-center">
                         <button

@@ -1,17 +1,17 @@
 import React from "react";
 import { CheckIcon } from "@heroicons/react/solid";
 
-function Color({ name, color, current, hex, handleChange }) {
+function Color({ name, inputName, id, color, current, hex, handleChange }) {
     const isChecked = name == current;
     return (
         <label
             className="relative min-w-fit p-1 cursor-pointer"
-            htmlFor={color}
+            htmlFor={id ?? color}
         >
             <input
-                id={color}
+                id={id ?? color}
                 type="radio"
-                name="color"
+                name={inputName ?? "color"}
                 className="sr-only peer"
                 defaultChecked={isChecked}
                 onChange={(e) => handleChange(name)}

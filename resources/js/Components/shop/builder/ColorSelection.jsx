@@ -1,5 +1,5 @@
 import ProductContext from "@/Components/context/ProductContext";
-import { COLORS, getColors } from "@/utils/helpers";
+import { getColors } from "@/utils/helpers";
 import React, { useContext, useEffect, useState } from "react";
 import Spacer from "../Spacer";
 import Color from "./selections/Color";
