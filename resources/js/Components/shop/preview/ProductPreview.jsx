@@ -7,7 +7,8 @@ import ProductContext from "@/Components/context/ProductContext";
 
 function ProductPreview({ className }) {
     const { frontImage, sideImage, sideHidden } = useContext(PreviewContext);
-    const { changeLogo, showLogo, changeProduct } = useContext(ProductContext);
+    const { product, changeLogo, showLogo, changeProduct } =
+        useContext(ProductContext);
     const change = () => {
         // changeProduct("Hardcover", "Leder", "Dunkelblau");
         const schools = ["BG 13 Fichtnergasse", "HLTW 13 Bergheidengasse"];
@@ -28,24 +29,20 @@ function ProductPreview({ className }) {
                             <ImageCanvas
                                 imageUrl={frontImage}
                                 isFront={true}
-                                text={{
-                                    first_line: {
-                                        text: "DIPLOMARBEIT",
-                                        size: "9mm",
-                                    },
-                                    second_line: {
-                                        text: "5AHIF 2022",
-                                        size: "9mm",
-                                    },
-                                    // third_line: { text: "BLIBLABLUB", size: "9mm" },
-                                }}
-                                color="Gold"
+                                text={
+                                    product.embossing_options.text.front &&
+                                    product.embossing_options.text.front_text
+                                }
+                                color={product.embossing_options.color}
                             />
-                            <LogoCanvas
-                                className="absolute top-0 left-0"
-                                logo="BG 13 Fichtnergasse"
-                                color="Gold"
-                            />
+                            {product.embossing_options.schoollogo &&
+                                product.embossing && (
+                                    <LogoCanvas
+                                        className="absolute top-0 left-0"
+                                        logo="BG 13 Fichtnergasse"
+                                        color={product.embossing_options.color}
+                                    />
+                                )}
                         </div>
                     </div>
                     {!sideHidden && (
@@ -57,12 +54,11 @@ function ProductPreview({ className }) {
                                 <ImageCanvas
                                     imageUrl={sideImage}
                                     title="side"
-                                    text={{
-                                        text: "DIPLOMARBEIT",
-                                        right: "5AHIF 2022",
-                                        size: "5.5mm",
-                                        position: "Linksbündig mit Rand",
-                                    }}
+                                    text={
+                                        product.embossing_options.text.back &&
+                                        product.embossing_options.text.back_text
+                                    }
+                                    color={product.embossing_options.color}
                                 />
                             </div>
                         </div>
