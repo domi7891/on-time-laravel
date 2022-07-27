@@ -1,5 +1,5 @@
 import { formatePrice } from "@/utils/helpers";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Button from "../Button";
 import ProductContext from "../context/ProductContext";
 import NumberInput from "../Form/NumberInput";
@@ -10,36 +10,41 @@ import { post } from "axios";
 import CartContext from "../context/CartContext";
 
 function Product() {
-    const [top, setTop] = useState(0);
     const [open, setIsOpen] = useState(true);
     const [inititalHeight, setInititalHeight] = useState(0);
     const { product, totals, changeProductQty } = useContext(ProductContext);
     const { addToCart } = useContext(CartContext);
+    const preview = useRef();
+
+    const handleScroll = (event) => {
+        if (open) return;
+        const prev = preview.current;
+        if (prev.clientHeight > inititalHeight) {
+            return;
+        }
+        if (window.scrollY + prev.clientHeight > inititalHeight) {
+            prev.style.top = inititalHeight - prev.clientHeight - 20 + "px";
+            return;
+        }
+        if (window.scrollY > 70) {
+            prev.style.top = window.scrollY - 60 + "px";
+        } else {
+            prev.style.top = 0 + "px";
+        }
+    };
 
     useEffect(() => {
+        preview.current.style.top = 0 + "px";
         setInititalHeight(document.querySelector("#shop").clientHeight);
-        const handleScroll = (event) => {
-            if (open) return;
-            const prev = document.querySelector("#preview");
-            if (prev.clientHeight > inititalHeight) {
-                return;
-            }
-            if (window.scrollY + prev.clientHeight > inititalHeight) {
-                setTop(inititalHeight - prev.clientHeight - 20);
-                return;
-            }
-            if (window.scrollY > 70) setTop(window.scrollY - 60);
-            else {
-                setTop(0);
-            }
-        };
+    }, []);
 
+    useEffect(() => {
         window.addEventListener("scroll", handleScroll);
 
         return () => {
             window.removeEventListener("scroll", handleScroll);
         };
-    }, [setTop, top, inititalHeight]);
+    }, [open]);
 
     const addProduct = () => {
         addToCart(product);
@@ -47,9 +52,9 @@ function Product() {
 
     return (
         <div
+            ref={preview}
             id="preview"
             className="static lg:relative right-0 w-full sm:w-3/4 lg:w-full mx-auto transition-all duration-[50ms] space-y-10 divide-y"
-            style={{ top: top }}
         >
             <ProductPreview />
             <div className="md:mx-5 md:px-5">
@@ -82,8 +87,7 @@ function Product() {
                     </div>
                 </div>
                 <ProductInfo
-                    setTop={setTop}
-                    top={top}
+                    preview={preview}
                     open={open}
                     setIsOpen={setIsOpen}
                 />
