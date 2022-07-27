@@ -14,6 +14,7 @@ import WeightSelection from "@/Components/shop/builder/WeightSelection";
 import PdfSelection from "@/Components/shop/builder/PdfSelection";
 import { BASE_PRODUCT } from "@/utils/helpers";
 import PageSelection from "@/Components/shop/builder/PageSelection";
+import EmbossingSelection from "@/Components/shop/builder/EmbossingSelection";
 
 function Shop({ facility, type }) {
     const product = BASE_PRODUCT;
@@ -45,6 +46,7 @@ function Shop({ facility, type }) {
                             </div>
                             <PdfSelection />
                             <PageSelection />
+                            <EmbossingSelection />
                         </div>
                     </div>
                 )}
