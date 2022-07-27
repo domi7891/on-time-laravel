@@ -3,7 +3,7 @@ import { Disclosure, Transition } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/outline";
 import ProductDetails from "./ProductDetails";
 
-function ProductInfo({ setTop, setIsOpen, open }) {
+function ProductInfo({ preview, setIsOpen, open }) {
     const [height, setHeight] = useState(0);
 
     useEffect(() => {
@@ -18,26 +18,17 @@ function ProductInfo({ setTop, setIsOpen, open }) {
     }, []);
 
     useEffect(() => {
-        const prev = document.querySelector("#preview");
-        const divHeight = document.querySelector("#shop").clientHeight;
         if (open) {
-            setTop(0);
+            preview.current.style.top = "0px";
             window.scrollTo({
                 behavior: "smooth",
                 top: 0,
             });
-            // if (top + prev.clientHeight + height > divHeight) {
-            //     const newTop = divHeight - prev.clientHeight - height - 10;
-            //     window.scrollTo({
-            //         behavior: "smooth",
-            //         top: window.scrollY + (newTop - top),
-            //     });
-            //     setTop(newTop < 0 ? 0 : newTop);
-            // }
         } else {
             setTimeout(() => {
-                const newTop = window.scrollY - 60;
-                setTop(newTop < 0 ? 0 : newTop);
+                let newTop = window.scrollY - 60;
+                if (newTop < 0) newTop = 0;
+                preview.current.style.top = newTop + "px";
             }, 750);
         }
     }, [open]);
