@@ -15,6 +15,7 @@ import PdfSelection from "@/Components/shop/builder/PdfSelection";
 import { BASE_PRODUCT } from "@/utils/helpers";
 import PageSelection from "@/Components/shop/builder/PageSelection";
 import EmbossingSelection from "@/Components/shop/builder/EmbossingSelection";
+import A3Selection from "@/Components/shop/builder/A3Selection";
 
 function Shop({ facility, type }) {
     const product = BASE_PRODUCT;
@@ -47,6 +48,7 @@ function Shop({ facility, type }) {
                             <PdfSelection />
                             <PageSelection />
                             <EmbossingSelection />
+                            <A3Selection />
                         </div>
                     </div>
                 )}
