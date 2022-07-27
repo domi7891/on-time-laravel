@@ -18,7 +18,7 @@ module.exports = {
             ],
         },
         extend: {
-            screens: { xs: "450px" },
+            screens: { xs: "450px", xxs: "350px" },
             maxWidth: {
                 max: "1700px",
                 canvas: "200px",
