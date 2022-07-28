@@ -13,7 +13,6 @@ function EmbossingLogo() {
 
     const changeHasLogo = (title, e) => {
         const value = e.target.value == "true";
-        console.log(value);
         changeEmbossingOptions("schoollogo", value);
     };
 

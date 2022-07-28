@@ -40,7 +40,6 @@ export function ProductProvider({ type, initProduct, children }) {
     );
 
     useEffect(() => {
-        console.log("Test");
         checkInputs();
     }, [
         product.embossing,

@@ -9,7 +9,6 @@ function A3({ from, to, idx, max }) {
     const { changeA3 } = useContext(ProductContext);
 
     useEffect(() => {
-        console.log("From, To changed");
         setFrom(from);
         setTo(to);
     }, [from, to]);

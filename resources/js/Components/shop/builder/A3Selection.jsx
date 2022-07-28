@@ -18,15 +18,12 @@ function A3Selection() {
     };
 
     useEffect(() => {
-        console.log("Sitets changed");
         setSites(product.a3_sites);
     }, [product.a3_sites]);
 
     const addA3 = () => {
         changeA3(sites.length, 1, 2);
     };
-
-    console.log(sites);
 
     return (
         <div className="w-full space-y-2">
