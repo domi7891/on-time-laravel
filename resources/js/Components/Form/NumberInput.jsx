@@ -26,9 +26,10 @@ function NumberInput({
     }, []);
 
     const step = (step) => {
-        if (value + step >= min) {
+        const val = parseInt(value);
+        if (val + step >= min) {
             if (step > 0 && !max) handleStep(step);
-            if (step > 0 && max && value + step <= max) handleStep(step);
+            if (step > 0 && max && val + step <= max) handleStep(step);
             if (step < 0) handleStep(step);
         }
     };
