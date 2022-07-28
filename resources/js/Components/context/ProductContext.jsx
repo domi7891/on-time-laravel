@@ -269,6 +269,18 @@ export function ProductProvider({ type, initProduct, children }) {
         });
     };
 
+    const changeA3 = (idx, from, to, remove = false) => {
+        setProduct((oldValue) => {
+            let { a3_sites } = oldValue;
+            if (!remove) {
+                a3_sites[idx] = { from, to };
+            } else {
+                a3_sites.splice(idx, 1);
+            }
+            return { ...oldValue, a3_sites };
+        });
+    };
+
     const changeProductQty = (qty, setQty = false) => {
         let quantity = qty;
         const oldTotals = (product.totals = setProduct((oldValue) => {
@@ -307,6 +319,7 @@ export function ProductProvider({ type, initProduct, children }) {
                 changeType,
                 changeMaterial,
                 changeColor,
+                changeA3,
                 changeProductQty,
                 changeEquipment,
             }}
