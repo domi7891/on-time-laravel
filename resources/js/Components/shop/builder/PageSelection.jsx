@@ -11,13 +11,11 @@ function PageSelection() {
     useEffect(() => setPages(product.pages), [product.pages]);
 
     const pagesChange = (e) => {
-        // changeProduct("pages", e.target.value);
         setPages(e.target.value);
     };
 
     const handleBlur = (e) => {
         let val = pages;
-        console.log(e.target.value);
         if (val == "") {
             val = 0;
             setPages(val);

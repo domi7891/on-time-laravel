@@ -31,7 +31,6 @@ function PdfSelection() {
         if (res.data.error) {
             createToast("Nicht Möglich!", res.data.msg, true);
         } else {
-            console.log(res.data);
             changeProductMultiple({
                 pdf: res.data.pdf,
                 pages: res.data.pages,

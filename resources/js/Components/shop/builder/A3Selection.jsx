@@ -1,14 +1,28 @@
 import ProductContext from "@/Components/context/ProductContext";
 import Checkbox from "@/Components/Form/Checkbox";
-import React, { useContext } from "react";
+import { PlusCircleIcon } from "@heroicons/react/solid";
+import React, { useContext, useEffect, useState } from "react";
 import Spacer from "../Spacer";
+import A3 from "./selections/A3";
 
 function A3Selection() {
-    const { product, changeProduct } = useContext(ProductContext);
+    const { product, changeProduct, changeA3 } = useContext(ProductContext);
+    const [sites, setSites] = useState(product.a3_sites);
 
     const changeHasA3 = (title, e) => {
         const value = e.target.value == "true";
+        if (sites.length == 0 && value) {
+            changeA3(0, 1, 2);
+        }
         changeProduct("a3", value);
+    };
+
+    useEffect(() => {
+        setSites(product.a3_sites);
+    }, [product.a3_sites]);
+
+    const addA3 = () => {
+        changeA3(sites.length, 1, 2);
     };
 
     return (
@@ -38,6 +52,26 @@ function A3Selection() {
                         handleChange={changeHasA3}
                     />
                 </div>
+                {product.a3 && (
+                    <div className="w-full space-y-5 ml-2 overflow-x-auto">
+                        {sites.map((value, idx) => (
+                            <A3
+                                max={product.pages}
+                                key={idx}
+                                from={value.from}
+                                to={value.to}
+                                idx={idx}
+                            />
+                        ))}
+                        <button
+                            className="w-fit flex items-center gap-3 cursor-pointer outline-none rounded-md focus-visible:border-solid border border-transparent focus-visible:border-accent-400/50 focus-visible:ring focus-visible:ring-accent-400 focus-visible:ring-opacity-25"
+                            onClick={addA3}
+                        >
+                            <PlusCircleIcon className="w-6 h-6 text-accent-400" />
+                            <span>Seiten hinzufügen</span>
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );
