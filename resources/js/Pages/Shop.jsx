@@ -16,6 +16,7 @@ import { BASE_PRODUCT } from "@/utils/helpers";
 import PageSelection from "@/Components/shop/builder/PageSelection";
 import EmbossingSelection from "@/Components/shop/builder/EmbossingSelection";
 import A3Selection from "@/Components/shop/builder/A3Selection";
+import RemarkSelection from "@/Components/shop/builder/RemarkSelection";
 
 function Shop({ facility, type }) {
     const product = BASE_PRODUCT;
@@ -49,6 +50,7 @@ function Shop({ facility, type }) {
                             <PageSelection />
                             <EmbossingSelection />
                             <A3Selection />
+                            <RemarkSelection />
                         </div>
                     </div>
                 )}

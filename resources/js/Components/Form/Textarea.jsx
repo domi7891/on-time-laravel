@@ -45,15 +45,17 @@ function Textarea({
                 required={required}
                 onChange={(e) => handleChange(e)}
             />
-            <label
-                htmlFor={name}
-                className={
-                    `block font-medium text-sm text-gray-600 peer-required:after:content-['*'] peer-required:after:text-red-400 ` +
-                    labelClass
-                }
-            >
-                {title ? title : children}
-            </label>
+            {(title || children) && (
+                <label
+                    htmlFor={name}
+                    className={
+                        `block font-medium text-sm text-gray-600 peer-required:after:content-['*'] peer-required:after:text-red-400 ` +
+                        labelClass
+                    }
+                >
+                    {title ? title : children}
+                </label>
+            )}
         </div>
     );
 }
