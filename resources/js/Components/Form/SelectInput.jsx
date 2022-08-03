@@ -6,6 +6,7 @@ function SelectInput({
     name,
     value,
     selectName,
+    selectValue,
     selectTitle,
     placeholder,
     containerClass,
@@ -15,8 +16,9 @@ function SelectInput({
     required,
     isFocused,
     handleChange = () => {},
+    handleKeyDown = () => {},
     handleSelectChange = () => {},
-    autoComplete,
+    autoComplete = "off",
     children,
 }) {
     const input = useRef();
@@ -45,8 +47,9 @@ function SelectInput({
                     <select
                         name={selectName}
                         id={selectName}
+                        defaultValue={selectValue}
                         onChange={(e) => handleSelectChange(e)}
-                        className={`focus:border-accent-400/50 focus:ring focus:ring-accent-400 focus:ring-opacity-25 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md text-ellipsis max-w-[125px] sm:max-w-none ${selectClass}`}
+                        className={`cursor-pointer focus:border-accent-400/50 focus:ring focus:ring-accent-400 focus:ring-opacity-25 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md text-ellipsis max-w-[125px] sm:max-w-none ${selectClass}`}
                     >
                         {children}
                     </select>
@@ -63,6 +66,7 @@ function SelectInput({
                     autoComplete={autoComplete}
                     required={required}
                     onChange={(e) => handleChange(e)}
+                    onKeyDown={(e) => handleKeyDown(e)}
                 />
             </div>
         </div>
