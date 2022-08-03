@@ -1,5 +1,5 @@
 import ProductContext from "@/Components/context/ProductContext";
-import { formatePrice, TOTALS } from "@/utils/helpers";
+import { formatePrice } from "@/utils/helpers";
 import React, { useContext } from "react";
 
 function ProductDetails() {

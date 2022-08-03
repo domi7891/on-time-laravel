@@ -1,11 +1,11 @@
 import PreviewContext from "@/Components/context/PreviewContext";
 import ProductContext from "@/Components/context/ProductContext";
+import { EMBOSSING_COLORS } from "@/utils/constants";
 import {
     calcFontSize,
     changeImageColor,
     drawFrontText,
     drawSideText,
-    EMBOSSING_COLORS,
 } from "@/utils/helpers";
 import React, { useContext, useEffect, useRef, useState } from "react";
 

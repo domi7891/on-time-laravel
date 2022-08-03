@@ -1,16 +1,10 @@
-import {
-    BASE_PRODUCT,
-    TOTALS,
-    hasColor,
-    materialByColor,
-} from "@/utils/helpers";
+import { hasColor, materialByColor } from "@/utils/helpers";
 import React, { useContext, useEffect, useState } from "react";
 import { get, post } from "axios";
 import ToastContext from "./ToastContext";
+import { TOTALS } from "@/utils/constants";
 
 const ProductContext = React.createContext();
-
-const BASE_FOLDER = "/images/products/";
 
 export function ProductProvider({ type, initProduct, children }) {
     const [product, setProduct] = useState(initProduct);
@@ -312,6 +306,7 @@ export function ProductProvider({ type, initProduct, children }) {
                 changeEmbossingOptions,
                 changeEmbossingLogo,
                 changeEmbossingText,
+                changeEmbossingTextMulitple,
                 changeProduct,
                 changeProductMultiple,
                 removeKey,

@@ -1,4 +1,5 @@
-import { BASE_FOLDER, buildUrl, capitalizeFirstLetter } from "@/utils/helpers";
+import { BASE_FOLDER } from "@/utils/constants";
+import { buildUrl, capitalizeFirstLetter } from "@/utils/helpers";
 import React, { useContext, useEffect, useState } from "react";
 import ProductContext from "./ProductContext";
 

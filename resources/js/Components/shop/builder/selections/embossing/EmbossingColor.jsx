@@ -1,6 +1,6 @@
 import Spacer from "@/Components/shop/Spacer";
 import React, { useContext, useEffect, useState } from "react";
-import { EMBOSSING_COLORS } from "@/utils/helpers";
+import { EMBOSSING_COLORS } from "@/utils/constants";
 import Color from "../Color";
 import ProductContext from "@/Components/context/ProductContext";
 import Hint from "@/Components/Hint";

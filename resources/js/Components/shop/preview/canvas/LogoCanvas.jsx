@@ -1,9 +1,6 @@
 import ProductContext from "@/Components/context/ProductContext";
-import {
-    calcFontSize,
-    changeImageColor,
-    EMBOSSING_COLORS,
-} from "@/utils/helpers";
+import { EMBOSSING_COLORS } from "@/utils/constants";
+import { calcFontSize, changeImageColor } from "@/utils/helpers";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import PreviewContext from "../../../context/PreviewContext";
 
