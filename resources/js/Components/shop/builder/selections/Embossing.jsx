@@ -5,6 +5,7 @@ import EmbossingColor from "./embossing/EmbossingColor";
 import EmbossingLogo from "./embossing/EmbossingLogo";
 import EmbossingMethod from "./embossing/EmbossingMethod";
 import EmbossingPosition from "./embossing/EmbossingPosition";
+import EmbossingTextFront from "./embossing/EmbossingTextFront";
 
 function Embossing() {
     const { product, changeProduct, checkHasLogo } = useContext(ProductContext);
@@ -41,6 +42,9 @@ function Embossing() {
                     <EmbossingMethod />
                     <EmbossingPosition />
                     {checkHasLogo() && <EmbossingLogo />}
+                    {product.embossing_options.text.front && (
+                        <EmbossingTextFront />
+                    )}
                     {/* <EmbossingSchoolLogo current={product.embossing_options.color} /> */}
                 </>
             )}

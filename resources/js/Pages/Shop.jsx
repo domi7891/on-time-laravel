@@ -2,8 +2,6 @@ import { PreviewProvider } from "@/Components/context/PreviewContext";
 import ProductContext, {
     ProductProvider,
 } from "@/Components/context/ProductContext";
-import ProductPreview from "@/Components/shop/preview/ProductPreview";
-import ProductInfo from "@/Components/shop/info/ProductInfo";
 import React, { useContext, useEffect, useState } from "react";
 import Product from "@/Components/shop/Product";
 import TypeSelection from "@/Components/shop/builder/TypeSelection";
@@ -12,7 +10,7 @@ import ColorSelection from "@/Components/shop/builder/ColorSelection";
 import PrintSelection from "@/Components/shop/builder/PrintSelection";
 import WeightSelection from "@/Components/shop/builder/WeightSelection";
 import PdfSelection from "@/Components/shop/builder/PdfSelection";
-import { BASE_PRODUCT } from "@/utils/helpers";
+import { BASE_PRODUCT } from "@/utils/constants";
 import PageSelection from "@/Components/shop/builder/PageSelection";
 import EmbossingSelection from "@/Components/shop/builder/EmbossingSelection";
 import A3Selection from "@/Components/shop/builder/A3Selection";
