@@ -12,15 +12,13 @@ function EmbossingTextFront() {
         product.embossing_options.text.front_text
     );
 
+    const length = () => Object.keys(texts).length;
+
     const handleKeyDown = (e, line, size) => {
-        // console.log(ALLOWED_KEYS[size]);
-        // console.log(e.key, size);
         if (!ALLOWED_KEYS[size].includes(e.key)) {
             e.preventDefault();
             e.stopPropagation();
         }
-
-        // console.log(e, line);
     };
 
     const handleChange = (e, line) => {
@@ -32,6 +30,11 @@ function EmbossingTextFront() {
     const handleSelectChange = (e, line) => {
         let text = product.embossing_options.text.front_text;
         text[line] = { text: "", size: e.target.value };
+        if (length() > 2) {
+            for (let i = 2; i <= length(); i++) {
+                text[`${i}. Zeile`].size = e.target.value;
+            }
+        }
         changeEmbossingTextMulitple({ front_text: text });
     };
 
@@ -42,9 +45,17 @@ function EmbossingTextFront() {
     };
 
     const addLine = () => {
-        const newLine = `${Object.entries(texts).length + 1}. Zeile`;
+        const newLine = `${length() + 1}. Zeile`;
         let text = product.embossing_options.text.front_text;
-        text[newLine] = { text: "", size: "9mm" };
+        let size = "9mm";
+        if (length() + 1 > 2) {
+            size = text["1. Zeile"].size;
+            if (length() + 1 > 3) size = "5.5mm";
+            for (let i = 1; i <= length(); i++) {
+                text[`${i}. Zeile`].size = size;
+            }
+        }
+        text[newLine] = { text: "", size };
         changeEmbossingTextMulitple({ front_text: text });
     };
 
@@ -76,12 +87,13 @@ function EmbossingTextFront() {
                 </div>
             </div>
             <Spacer />
-            <div className="pt-2 space-y-3 ml-2 overflow-x-auto">
+            <div className="pt-2 space-y-3 pl-2 overflow-x-auto">
                 {Object.entries(texts).map(([key, value], idx) => {
+                    console.log(value);
                     return (
                         <div
                             key={idx}
-                            className="flex justify-start items-end gap-3"
+                            className="flex justify-start items-end gap-3 min-w-[275px]"
                         >
                             <SelectInput
                                 containerClass="w-full sm:w-2/3 md:w-1/2 lg:w-full xl:w-2/3"
@@ -93,6 +105,9 @@ function EmbossingTextFront() {
                                 value={value.text}
                                 selectValue={value.size}
                                 selectName={`emb_textsize_front_${idx}`}
+                                selectDisable={
+                                    (length() > 2 && idx > 0) || length() > 3
+                                }
                                 placeholder="... z.B.: Diplomarbeit"
                                 handleKeyDown={(e) =>
                                     handleKeyDown(e, key, value.size)
@@ -105,19 +120,18 @@ function EmbossingTextFront() {
                                 <option value="5.5mm">5.5 mm</option>
                                 <option value="9mm">9mm</option>
                             </SelectInput>
-                            {idx > 0 &&
-                                idx == Object.entries(texts).length - 1 && (
-                                    <button
-                                        onClick={() => remove(key)}
-                                        className="transform -translate-y-1/2"
-                                    >
-                                        <TrashIcon className="cursor-pointer text-red-600 w-5 h-5" />
-                                    </button>
-                                )}
+                            {idx > 0 && idx == length() - 1 && (
+                                <button
+                                    onClick={() => remove(key)}
+                                    className="transform -translate-y-1/2"
+                                >
+                                    <TrashIcon className="cursor-pointer text-red-600 w-5 h-5" />
+                                </button>
+                            )}
                         </div>
                     );
                 })}
-                {Object.entries(texts).length < 5 && (
+                {length() < 5 && (
                     <button
                         className="w-fit flex items-center gap-3 cursor-pointer outline-none rounded-md focus-visible:border-solid border border-transparent focus-visible:border-accent-400/50 focus-visible:ring focus-visible:ring-accent-400 focus-visible:ring-opacity-25"
                         onClick={addLine}
