@@ -2,13 +2,15 @@ import ProductContext from "@/Components/context/ProductContext";
 import Checkbox from "@/Components/Form/Checkbox";
 import React, { useContext } from "react";
 import EmbossingColor from "./embossing/EmbossingColor";
+import EmbossingCustom from "./embossing/EmbossingCustom";
 import EmbossingLogo from "./embossing/EmbossingLogo";
 import EmbossingMethod from "./embossing/EmbossingMethod";
 import EmbossingPosition from "./embossing/EmbossingPosition";
 import EmbossingTextFront from "./embossing/EmbossingTextFront";
 
 function Embossing() {
-    const { product, changeProduct, checkHasLogo } = useContext(ProductContext);
+    const { product, changeProduct, checkHasLogo, checkHasCustom } =
+        useContext(ProductContext);
 
     const changeEmbossing = (title, e) => {
         const value = e.target.value == "true";
@@ -42,9 +44,13 @@ function Embossing() {
                     <EmbossingMethod />
                     <EmbossingPosition />
                     {checkHasLogo() && <EmbossingLogo />}
-                    {product.embossing_options.text.front && (
-                        <EmbossingTextFront />
+                    {product.embossing_options.method == "Digitalprägung" && (
+                        <EmbossingCustom />
                     )}
+                    {!checkHasCustom() &&
+                        product.embossing_options.text.front && (
+                            <EmbossingTextFront />
+                        )}
                     {/* <EmbossingSchoolLogo current={product.embossing_options.color} /> */}
                 </>
             )}

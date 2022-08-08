@@ -32,7 +32,10 @@ function EmbossingTextFront() {
         text[line] = { text: "", size: e.target.value };
         if (length() > 2) {
             for (let i = 2; i <= length(); i++) {
-                text[`${i}. Zeile`].size = e.target.value;
+                if (text[`${i}. Zeile`].size != e.target.value) {
+                    text[`${i}. Zeile`] = { text: "", size: size };
+                }
+                // text[`${i}. Zeile`] = { text: "", size: e.target.value };
             }
         }
         changeEmbossingTextMulitple({ front_text: text });
@@ -52,7 +55,9 @@ function EmbossingTextFront() {
             size = text["1. Zeile"].size;
             if (length() + 1 > 3) size = "5.5mm";
             for (let i = 1; i <= length(); i++) {
-                text[`${i}. Zeile`].size = size;
+                if (text[`${i}. Zeile`].size != size) {
+                    text[`${i}. Zeile`] = { text: "", size: size };
+                }
             }
         }
         text[newLine] = { text: "", size };
