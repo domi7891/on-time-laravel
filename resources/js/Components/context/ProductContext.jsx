@@ -87,9 +87,21 @@ export function ProductProvider({ type, initProduct, children }) {
     const checkInputs = () => {
         checkEmbossingColor();
         checkEmbossingPosition();
+        checkEmbossingType();
         const logoCheck = checkLogo();
         changeLogo(product.embossing_options.schoollogo_options.name, showLogo);
         return logoCheck;
+    };
+
+    const checkEmbossingType = () => {
+        if (
+            product.embossing_options.method == "Digitalprägung" &&
+            product.embossing_options.custom
+        ) {
+            changeEmbossingOptions("has_text", false);
+        } else {
+            changeEmbossingOptions("has_text", true);
+        }
     };
 
     const checkEmbossingColor = () => {
@@ -136,6 +148,13 @@ export function ProductProvider({ type, initProduct, children }) {
             product.embossing &&
             product.embossing_options.method == "Tiefenprägung" &&
             product.embossing_options.position != "Buchrücken"
+        );
+    };
+
+    const checkHasCustom = () => {
+        return (
+            product.embossing_options.method == "Digitalprägung" &&
+            product.embossing_options.custom
         );
     };
 
@@ -303,6 +322,7 @@ export function ProductProvider({ type, initProduct, children }) {
                 showLogo,
                 changeLogo,
                 checkHasLogo,
+                checkHasCustom,
                 changeEmbossingOptions,
                 changeEmbossingLogo,
                 changeEmbossingText,
