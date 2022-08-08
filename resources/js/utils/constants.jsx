@@ -47,6 +47,7 @@ const BASE_PRODUCT = {
         custom_options: {
             displayName: "CustomFront.pdf",
         },
+        has_text: true,
         text: {
             front: true,
             front_text: {
@@ -56,7 +57,11 @@ const BASE_PRODUCT = {
                 },
                 "2. Zeile": {
                     text: "5AHIF 2022",
-                    size: "5.5mm",
+                    size: "9mm",
+                },
+                "3. Zeile": {
+                    text: "5AHIF 2022",
+                    size: "9mm",
                 },
             },
             back: true,

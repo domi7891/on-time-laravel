@@ -106,7 +106,7 @@ const drawFrontText = (
     context.font = calcFontSize(text.size) + "px 'Arial'";
     let center = canvas.width / 2 - context.measureText(text.text).width / 2;
     context.fillText(text.text, center, posTop);
-    const spacing = lines > 2 ? LINE_SPACING * 0.2 : LINE_SPACING;
+    const spacing = lines > 2 ? LINE_SPACING * 0.25 : LINE_SPACING;
     posTop += context.measureText(text.text).fontBoundingBoxDescent + spacing;
 
     return posTop;

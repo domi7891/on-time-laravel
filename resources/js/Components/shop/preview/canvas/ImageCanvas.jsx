@@ -33,19 +33,19 @@ function ImageCanvas({
     let posTop = 0;
     const { red, green, blue } = EMBOSSING_COLORS[color];
 
-    const draw = (text, canvas, context) => {
+    const draw = (line_text, canvas, context) => {
         const lines = Object.entries(text).length;
         if (isFront) {
             posTop = drawFrontText(
                 canvas,
                 context,
                 lines,
-                text,
+                line_text,
                 { red, green, blue },
                 posTop
             );
         } else {
-            drawSideText(canvas, context, text, { red, green, blue });
+            drawSideText(canvas, context, line_text, { red, green, blue });
         }
     };
 
@@ -61,7 +61,7 @@ function ImageCanvas({
         posTop = product.embossing_options.schoollogo
             ? canvas.height / 3.1
             : canvas.height / 4.5;
-        if (product.embossing && text) {
+        if (product.embossing && product.embossing_options.has_text && text) {
             if (isFront) {
                 Object.entries(text).forEach(([key, value], idx) => {
                     draw(value, canvas, context);

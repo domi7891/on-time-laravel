@@ -25,9 +25,9 @@ function LogoCanvas({ className = "", color = "Gold" }) {
         context.clearRect(0, 0, canvas.width, canvas.height);
         context.drawImage(
             logoImage,
+            -4,
             0,
-            0,
-            logoImage.width,
+            logoImage.width + 10,
             logoImage.height,
             x,
             y,
