@@ -49,18 +49,19 @@ function ProductDetails() {
                             <div>
                                 Präge-Farbe: {product.embossing_options.color}
                             </div>
-                            {product.embossing_options.custom && (
-                                <div>
-                                    Eigene Buchvorderseite:
-                                    <br />
-                                    <span className="pl-5">
-                                        {
-                                            product.embossing_options
-                                                .custom_options.displayName
-                                        }
-                                    </span>
-                                </div>
-                            )}
+                            {product.embossing_options.custom &&
+                                product.embossing_options.custom_options && (
+                                    <div>
+                                        Eigene Buchvorderseite:
+                                        <br />
+                                        <span className="pl-5">
+                                            {
+                                                product.embossing_options
+                                                    .custom_options.display_name
+                                            }
+                                        </span>
+                                    </div>
+                                )}
                             {product.embossing_options.schoollogo && (
                                 <div>
                                     Schullogo:{" "}
@@ -75,93 +76,82 @@ function ProductDetails() {
                                     )}
                                 </div>
                             )}
-                            {product.embossing_options.has_text && (
-                                <>
-                                    {product.embossing_options.text.front && (
-                                        <div>
-                                            Vorderseite Text:
-                                            {Object.entries(
-                                                product.embossing_options.text
-                                                    .front_text
-                                            ).map(([key, val], idx) => {
-                                                return (
-                                                    <div key={idx}>
-                                                        <span className="pl-5">
-                                                            {key}: {val.text},{" "}
-                                                            {val.size}
-                                                        </span>
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
-                                    )}
-                                    {product.embossing_options.text.back && (
-                                        <div>
-                                            Buchrücken Text:
+                            {product.embossing_options.front && (
+                                <div>
+                                    Vorderseite Text:
+                                    {Object.entries(
+                                        product.embossing_options.front_text
+                                    ).map(([key, val], idx) => {
+                                        return (
+                                            <div key={idx}>
+                                                <span className="pl-5">
+                                                    {key}: {val.text},{" "}
+                                                    {val.size}
+                                                </span>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            )}
+                            {product.embossing_options.back && (
+                                <div>
+                                    Buchrücken Text:
+                                    <br />
+                                    <span className="pl-5">
+                                        Position:{" "}
+                                        {
+                                            product.embossing_options.back_text
+                                                .position
+                                        }
+                                    </span>
+                                    {product.embossing_options.back_text
+                                        .text && (
+                                        <>
                                             <br />
                                             <span className="pl-5">
-                                                Position:{" "}
+                                                Text:{" "}
                                                 {
                                                     product.embossing_options
-                                                        .text.back_text.position
+                                                        .back_text.text
                                                 }
                                             </span>
-                                            {product.embossing_options.text
-                                                .back_text.text && (
-                                                <>
-                                                    <br />
-                                                    <span className="pl-5">
-                                                        Text:{" "}
-                                                        {
-                                                            product
-                                                                .embossing_options
-                                                                .text.back_text
-                                                                .text
-                                                        }
-                                                    </span>
-                                                </>
-                                            )}
-                                            {product.embossing_options.text
-                                                .back_text.left && (
-                                                <>
-                                                    <br />
-                                                    <span className="pl-5">
-                                                        Linksbündig:{" "}
-                                                        {
-                                                            product
-                                                                .embossing_options
-                                                                .text.back_text
-                                                                .left
-                                                        }
-                                                    </span>
-                                                </>
-                                            )}
-                                            {product.embossing_options.text
-                                                .back_text.right && (
-                                                <>
-                                                    <br />
-                                                    <span className="pl-5">
-                                                        Rechtsbündig:{" "}
-                                                        {
-                                                            product
-                                                                .embossing_options
-                                                                .text.back_text
-                                                                .right
-                                                        }
-                                                    </span>
-                                                </>
-                                            )}
+                                        </>
+                                    )}
+                                    {product.embossing_options.back_text
+                                        .left && (
+                                        <>
                                             <br />
                                             <span className="pl-5">
-                                                Schriftgröße:{" "}
+                                                Linksbündig:{" "}
                                                 {
                                                     product.embossing_options
-                                                        .text.back_text.size
+                                                        .back_text.left
                                                 }
                                             </span>
-                                        </div>
+                                        </>
                                     )}
-                                </>
+                                    {product.embossing_options.back_text
+                                        .right && (
+                                        <>
+                                            <br />
+                                            <span className="pl-5">
+                                                Rechtsbündig:{" "}
+                                                {
+                                                    product.embossing_options
+                                                        .back_text.right
+                                                }
+                                            </span>
+                                        </>
+                                    )}
+                                    <br />
+                                    <span className="pl-5">
+                                        Schriftgröße:{" "}
+                                        {
+                                            product.embossing_options.back_text
+                                                .size
+                                        }
+                                    </span>
+                                </div>
                             )}
                         </>
                     )}

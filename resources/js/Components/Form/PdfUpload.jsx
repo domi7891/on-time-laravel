@@ -13,10 +13,13 @@ function PdfUpload({
     onRemove = () => {},
     hasFile = false,
     constantFile = null,
+    canRemove = false,
     // upload = { uploading: false, progress: 0 },
 }) {
     const input = useRef();
     const [file, setFile] = useState(constantFile);
+
+    console.log(constantFile, hasFile);
 
     const [upload, setUpload] = useState({
         uploading: false,
@@ -45,7 +48,7 @@ function PdfUpload({
 
     const removeFile = (e) => {
         e.preventDefault();
-        if (!hasFile) {
+        if (!hasFile || canRemove) {
             const dt = new DataTransfer();
             input.current.files = dt.files;
             setFile(null);
@@ -86,7 +89,7 @@ function PdfUpload({
                                                 ? file?.display_name
                                                 : file.name}
                                         </span>
-                                        {!hasFile && (
+                                        {(!hasFile || canRemove) && (
                                             <button
                                                 onClick={(e) => removeFile(e)}
                                             >

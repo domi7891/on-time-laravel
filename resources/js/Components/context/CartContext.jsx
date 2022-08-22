@@ -24,13 +24,11 @@ export function CartProvider({ children }) {
 
     const addToCart = (product) => {
         post("/basket/addProduct", product).then((res) => {
-            if (res.error) {
-                createToast(
-                    "Neues Produkt hinzugefügt!",
-                    "Ihr Produkt wurde zum Warenkorb hinzugefügt"
-                );
+            if (!res.data.success || res.data.error) {
+                createToast("Achtung!", res.data.error, true);
             } else {
-                setCart(res.data);
+                const { success, ...data } = res.data;
+                setCart(data.cart);
                 createToast(
                     "Neues Produkt hinzugefügt!",
                     "Ihr Produkt wurde zum Warenkorb hinzugefügt"
@@ -44,14 +42,16 @@ export function CartProvider({ children }) {
         post("/basket/removeProduct", {
             id,
         }).then((res) => {
-            setCart(res.data);
+            const { success, ...data } = res.data;
+            setCart(data.cart);
         });
     };
 
     const changeProduct = (product) => {
         let url = "/basket/changeProduct";
         post(url, product).then((res) => {
-            setCart(res.data);
+            const { success, ...data } = res.data;
+            setCart(data.cart);
         });
     };
 

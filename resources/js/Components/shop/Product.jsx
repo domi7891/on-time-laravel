@@ -15,6 +15,9 @@ function Product() {
     const { product, totals, changeProductQty } = useContext(ProductContext);
     const { addToCart } = useContext(CartContext);
     const preview = useRef();
+    const resizeObserver = new ResizeObserver((entries) => {
+        setInititalHeight(document.querySelector("#shop").clientHeight);
+    });
 
     const handleScroll = (event) => {
         if (open) return;
@@ -36,6 +39,10 @@ function Product() {
     useEffect(() => {
         preview.current.style.top = 0 + "px";
         setInititalHeight(document.querySelector("#shop").clientHeight);
+        resizeObserver.observe(document.body);
+        return () => {
+            resizeObserver.unobserve(document.body);
+        };
     }, []);
 
     useEffect(() => {

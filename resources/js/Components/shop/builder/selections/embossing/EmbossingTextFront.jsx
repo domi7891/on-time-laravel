@@ -8,9 +8,7 @@ import React, { useContext, useState } from "react";
 
 function EmbossingTextFront() {
     const { product, changeEmbossingTextMulitple } = useContext(ProductContext);
-    const [texts, setTexts] = useState(
-        product.embossing_options.text.front_text
-    );
+    const [texts, setTexts] = useState(product.embossing_options.front_text);
 
     const length = () => Object.keys(texts).length;
 
@@ -22,13 +20,13 @@ function EmbossingTextFront() {
     };
 
     const handleChange = (e, line) => {
-        let text = product.embossing_options.text.front_text;
+        let text = product.embossing_options.front_text;
         text[line].text = e.target.value;
         changeEmbossingTextMulitple({ front_text: text });
     };
 
     const handleSelectChange = (e, line) => {
-        let text = product.embossing_options.text.front_text;
+        let text = product.embossing_options.front_text;
         text[line] = { text: "", size: e.target.value };
         if (length() > 2) {
             for (let i = 2; i <= length(); i++) {
@@ -42,14 +40,14 @@ function EmbossingTextFront() {
     };
 
     const remove = (line) => {
-        let text = product.embossing_options.text.front_text;
+        let text = product.embossing_options.front_text;
         delete text[line];
         changeEmbossingTextMulitple({ front_text: text });
     };
 
     const addLine = () => {
         const newLine = `${length() + 1}. Zeile`;
-        let text = product.embossing_options.text.front_text;
+        let text = product.embossing_options.front_text;
         let size = "9mm";
         if (length() + 1 > 2) {
             size = text["1. Zeile"].size;
@@ -72,20 +70,28 @@ function EmbossingTextFront() {
                         Prägedetails Vorderseite
                     </h3>
                     <Hint placement="auto">
-                        <div className="space-y-2">
+                        <div className="">
                             <p className="text-sm text-left w-[270px]">
-                                <b>Tiefenprägung</b>: Der gewünschte Text
-                                und/oder Logo werden im Heißprägeverfahren
-                                mittels Prägefolien (Silber oder Gold), Wärme
-                                und Presskraft vertieft auf die Mappe
-                                appleziert.
+                                Bitte beachten Sie die erlaubten Zeichen.
                             </p>
                             <p className="text-sm text-left w-[270px]">
-                                <b>Digitalprägung</b>: Der gewünschte Text
-                                und/oder Logo werden mittels digitaler
-                                Heißprägung, Prägefolien (Silber oder Gold) und
-                                Wärme exakt nach Vorlage flach auf die Mappe
-                                gedruckt.
+                                Klicken Sie auf{" "}
+                                <a
+                                    className="underline hover:text-accent-400 transition-colors duration-300"
+                                    target="_blank"
+                                    href="/downloads/Ziffern_Zeichen_DE_Standard_5_5mm.pdf"
+                                >
+                                    5.5mm
+                                </a>{" "}
+                                oder{" "}
+                                <a
+                                    className="underline hover:text-accent-400 transition-colors duration-300"
+                                    target="_blank"
+                                    href="/downloads/Ziffern_Zeichen_DE_Standard_9mm.pdf"
+                                >
+                                    9mm
+                                </a>{" "}
+                                um diese zu sehen.
                             </p>
                         </div>
                     </Hint>

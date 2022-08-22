@@ -176,16 +176,18 @@ class ProductPricesController extends Controller
         return $error;
     }
 
-    public function calculatePrice(Request $request)
+    public function calculatePrice(Request $request, $adding = false)
     {
         $in = $request->all();
-        $data = $in['product'];
+        $data = $in;
+        if (!$adding)
+            $data = $in['product'];
         $pages = $data['pages'];
         if ($pages == "" || is_null($pages)) $pages = 0;
         $material =  array_key_exists('material', $data) ? $data['material'] : null;
         $color =  array_key_exists('color', $data) ? $data['color'] : null;
-        $error = $this->productError($data['type'], $material, $color, $pages, $data['paper_weight'], $data['print'], $in['disabled']);
-        if (!$error['success']) return array('error' => $error);
+        $error = $this->productError($data['type'], $material, $color, $pages, $data['paper_weight'], $data['print'], $adding ? null : $in['disabled']);
+        if (!$error['success']) return array('error' => $error, 'success' => false);
         $basePrice = ProductPrices::where([
             ['pages', '>=', $pages],
             ['type', $data['type']],
@@ -232,6 +234,10 @@ class ProductPricesController extends Controller
         $total = $totalUnit * $data['quantity'];
         $total += $totalEquipment;
 
-        return array('totals' => array('total' => $total, 'basePrice' => $basePrice, 'totalEquipment' => $totalEquipment, 'totalExtras' => $totalExtras, 'totalUnit' => $totalUnit, "extras" => $extrasDesc, "equipment" => $equipmentDesc), 'error' => $error);
+        $out = array('totals' => array('total' => $total, 'basePrice' => $basePrice, 'totalEquipment' => $totalEquipment, 'totalExtras' => $totalExtras, 'totalUnit' => $totalUnit, "extras" => $extrasDesc, "equipment" => $equipmentDesc));
+        if (!$adding) {
+            $out['error'] = $error;
+        }
+        return $out;
     }
 }

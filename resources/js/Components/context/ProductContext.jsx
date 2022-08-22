@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { get, post } from "axios";
 import ToastContext from "./ToastContext";
 import { TOTALS } from "@/utils/constants";
+import CartContext from "./CartContext";
 
 const ProductContext = React.createContext();
 
@@ -11,6 +12,7 @@ export function ProductProvider({ type, initProduct, children }) {
     const [totals, setTotals] = useState(TOTALS);
     const [error, setError] = useState();
 
+    const { cart } = useContext(CartContext);
     const { createToast } = useContext(ToastContext);
 
     const embPermitted = () => {
@@ -32,6 +34,13 @@ export function ProductProvider({ type, initProduct, children }) {
     const [logo, setLogo] = useState(
         product.embossing_options.schoollogo_options.name
     );
+
+    useEffect(() => {
+        if (cart?.items?.length > 0 && cart.pdf && cart.pdf.pages) {
+            changeProduct("pages", cart.pdf.pages);
+            // initProduct.pages = cart.pdf.pages;
+        }
+    }, [cart]);
 
     useEffect(() => {
         checkInputs();
@@ -98,10 +107,11 @@ export function ProductProvider({ type, initProduct, children }) {
             product.embossing_options.method == "Digitalprägung" &&
             product.embossing_options.custom
         ) {
-            changeEmbossingOptions("has_text", false);
-        } else {
-            changeEmbossingOptions("has_text", true);
+            changeEmbossingOptions("front", false);
         }
+        // else {
+        //     changeEmbossingOptions("front", true);
+        // }
     };
 
     const checkEmbossingColor = () => {
@@ -258,10 +268,11 @@ export function ProductProvider({ type, initProduct, children }) {
 
     const changeEmbossingTextMulitple = (newVals) => {
         setProduct((oldValue) => {
-            const { embossing_options } = oldValue;
-            let { text } = embossing_options;
-            text = { ...text, ...newVals };
-            embossing_options["text"] = text;
+            let { embossing_options } = oldValue;
+            embossing_options = {
+                ...embossing_options,
+                ...newVals,
+            };
             return { ...oldValue, embossing_options };
         });
     };

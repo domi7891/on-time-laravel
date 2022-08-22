@@ -1,3 +1,4 @@
+import CartContext from "@/Components/context/CartContext";
 import ProductContext from "@/Components/context/ProductContext";
 import NumberInput from "@/Components/Form/NumberInput";
 import React, { useContext, useEffect, useState } from "react";
@@ -5,6 +6,7 @@ import Spacer from "../Spacer";
 
 function PageSelection() {
     const { product, changeProduct } = useContext(ProductContext);
+    const { cart } = useContext(CartContext);
 
     const [pages, setPages] = useState(product.pages);
 
@@ -41,6 +43,7 @@ function PageSelection() {
                     required={true}
                     handleChange={pagesChange}
                     handleBlur={handleBlur}
+                    disabled={cart?.items?.length > 0 || product.pdf}
                 />
             </div>
         </div>

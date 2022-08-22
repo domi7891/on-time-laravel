@@ -23,7 +23,7 @@ class ProductExtrasController extends Controller
             $embossing =  $data['embossing_options'];
             $emb_type = $embossing['method'];
             $emb_position = $embossing['position'];
-            $emb_back = $embossing['text']['back_text']['position'];
+            $emb_back = $embossing['back_text']['position'];
             $logo = $embossing['schoollogo'];
             $weight = $data['paper_weight'];
             $a3 = $data['a3'];
@@ -38,11 +38,11 @@ class ProductExtrasController extends Controller
 
                 if ($emb_back == 'Links- und Rechtsbündig') {
                     if ($emb_position == 'Buchrücken' || $emb_type == 'Digitalprägung' && $emb_position == 'Beides') {
-                        $query->where('emb_back', $embossing['text']['back_text']['position']);
+                        $query->where('emb_back', $embossing['back_text']['position']);
                     }
                 } else {
                     if ($emb_position == 'Buchrücken' && $emb_type == 'Digitalprägung') {
-                        $query->where('emb_back', $embossing['text']['back_text']['position']);
+                        $query->where('emb_back', $embossing['back_text']['position']);
                     }
                 }
 

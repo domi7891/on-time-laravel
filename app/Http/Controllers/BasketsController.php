@@ -21,6 +21,7 @@ class BasketsController extends Controller
         $basket = Baskets::create();
 
         $basket->save();
+        $basket = Baskets::where('basket_id', $basket->basket_id)->first();
         $newBasket = array('basket_id' => $basket->basket_id, 'timestamp' => $basket->date, 'items' => array(), 'totals' => array('quantity' => 0, 'total' => 0.0, 'subtotal' => 0.0, 'discount' => array('total' => 0.0), 'shipping' => 0.0));
         $request->session()->put('cart', $newBasket);
         // session(['basket_id' => $basket->basket_id]);
@@ -31,8 +32,8 @@ class BasketsController extends Controller
         if (!$request->session()->exists('cart')) {
             $this->initiateBasket($request);
         }
-        $session_id = $request->session()->get('cart.basket_id');
-        $basket = Baskets::where('basket_id',  $session_id)->first();
+        // $session_id = $request->session()->get('cart.basket_id');
+        // $basket = Baskets::where('basket_id',  $session_id)->first();
 
         return json_encode($request->session()->get('cart'));
     }
@@ -40,12 +41,15 @@ class BasketsController extends Controller
     public function addItemToCart(Request $request)
     {
         $product = $request->all();
+        if (count($request->session()->get('cart.items')) == 0 && !isset($product['pdf'])) return array('success' => false, 'error' => "Es wurde keine Arbeit hochgeladen!");
         $pricesCont = new ProductPricesController();
-        $totals = $pricesCont->calculatePrice($request);
+        $totals = $pricesCont->calculatePrice($request, true);
+        if (array_key_exists('success', $totals) && !$totals['success']) return $totals;
         $product['productId'] = str_replace("-", "", Str::uuid()->toString());
         $product['totals'] = $totals['totals'];
         if (count($request->session()->get('cart.items')) == 0) {
             $pdf = $product['pdf'];
+            $pdf['pages'] = $product['pages'];
             $request->session()->put('cart.pdf', $pdf);
         }
         unset($product['pdf']);

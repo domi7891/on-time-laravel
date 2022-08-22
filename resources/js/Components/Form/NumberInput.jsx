@@ -15,6 +15,7 @@ function NumberInput({
     handleChange = () => {},
     handleStep = () => {},
     handleBlur = () => {},
+    disabled = false,
     children,
 }) {
     const input = useRef();
@@ -50,7 +51,13 @@ function NumberInput({
             <label htmlFor={name} className="sr-only">
                 {title}
             </label>
-            <div className="border border-gray-300 rounded-md shadow-sm flex gap-2 items-center py-2 px-2 h-full focus-within:border-solid focus-within:border focus-within:border-accent-400/50 focus-within:ring focus-within:ring-accent-400 focus-within:ring-opacity-25">
+            <div
+                className={`border border-gray-300 rounded-md shadow-sm flex gap-2 items-center py-2 px-2 h-full focus-within:border-solid focus-within:border focus-within:border-accent-400/50 focus-within:ring focus-within:ring-accent-400 focus-within:ring-opacity-25 ${
+                    disabled
+                        ? "bg-gray-400/30 border-transparent text-gray-600"
+                        : "bg-white"
+                }`}
+            >
                 {showStepper && (
                     <button
                         onClick={(e) => step(-1)}
@@ -66,11 +73,12 @@ function NumberInput({
                     id={name}
                     name={name}
                     value={value}
-                    className={`w-9 h-full p-0 text-center border-none custom-number-input focus:border-transparent focus:ring-0 ${inputClass}`}
+                    className={`bg-transparent w-9 h-full p-0 text-center border-none custom-number-input focus:border-transparent focus:ring-0 ${inputClass}`}
                     ref={input}
                     required={required}
                     onChange={(e) => handleChange(e)}
                     onBlur={(e) => change(e)}
+                    disabled={disabled}
                 />
                 {/* <input type="number" style={{ appearance: "none" }} /> */}
                 {showStepper && (

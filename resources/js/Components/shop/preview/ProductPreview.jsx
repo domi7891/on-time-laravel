@@ -4,6 +4,7 @@ import LogoCanvas from "./canvas/LogoCanvas";
 import ImageCanvas from "./canvas/ImageCanvas";
 import Carousel from "@/Components/carousel/Carousel";
 import ProductContext from "@/Components/context/ProductContext";
+import CustomFrontCanvas from "./canvas/CustomFrontCanvas";
 
 function ProductPreview({ className }) {
     const { frontImage, sideImage, sideHidden } = useContext(PreviewContext);
@@ -30,8 +31,8 @@ function ProductPreview({ className }) {
                                 imageUrl={frontImage}
                                 isFront={true}
                                 text={
-                                    product.embossing_options.text.front &&
-                                    product.embossing_options.text.front_text
+                                    product.embossing_options.front &&
+                                    product.embossing_options.front_text
                                 }
                                 color={product.embossing_options.color}
                             />
@@ -40,6 +41,15 @@ function ProductPreview({ className }) {
                                     <LogoCanvas
                                         className="absolute top-0 left-0"
                                         logo="BG 13 Fichtnergasse"
+                                        color={product.embossing_options.color}
+                                    />
+                                )}
+                            {product.embossing_options.custom &&
+                                product.embossing_options.custom_options
+                                    ?.name &&
+                                product.embossing && (
+                                    <CustomFrontCanvas
+                                        className="absolute top-0 left-0"
                                         color={product.embossing_options.color}
                                     />
                                 )}
@@ -55,8 +65,8 @@ function ProductPreview({ className }) {
                                     imageUrl={sideImage}
                                     title="side"
                                     text={
-                                        product.embossing_options.text.back &&
-                                        product.embossing_options.text.back_text
+                                        product.embossing_options.back &&
+                                        product.embossing_options.back_text
                                     }
                                     color={product.embossing_options.color}
                                 />

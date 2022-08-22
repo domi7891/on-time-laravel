@@ -33,7 +33,7 @@ const BASE_PRODUCT = {
     images: {
         front: "/images/products/Produktfotos Hardcover Leder/Small/hardcover_leder_front_black.jpg",
     },
-    pages: 75,
+    pages: 0,
     embossing_options: {
         color: "Silber",
         method: "Tiefenprägung",
@@ -43,35 +43,30 @@ const BASE_PRODUCT = {
             logoSelected: true,
             name: "HLTW 13 Bergheidengasse",
         },
-        custom: true,
-        custom_options: {
-            displayName: "CustomFront.pdf",
-        },
-        has_text: true,
-        text: {
-            front: true,
-            front_text: {
-                "1. Zeile": {
-                    text: "Diplomarbeit",
-                    size: "9mm",
-                },
-                "2. Zeile": {
-                    text: "5AHIF 2022",
-                    size: "9mm",
-                },
-                "3. Zeile": {
-                    text: "5AHIF 2022",
-                    size: "9mm",
-                },
-            },
-            back: true,
-            back_text: {
-                position: "Links- und Rechtsbündig",
-                left: "Diplomarbeit",
-                right: "2022",
+        custom: false,
+        custom_options: null,
+        front: true,
+        front_text: {
+            "1. Zeile": {
                 text: "Diplomarbeit",
-                size: "5.5mm",
+                size: "9mm",
             },
+            "2. Zeile": {
+                text: "5AHIF 2022",
+                size: "9mm",
+            },
+            "3. Zeile": {
+                text: "5AHIF 2022",
+                size: "9mm",
+            },
+        },
+        back: true,
+        back_text: {
+            position: "Links- und Rechtsbündig",
+            left: "Diplomarbeit",
+            right: "2022",
+            text: "Diplomarbeit",
+            size: "5.5mm",
         },
     },
     a3: false,
