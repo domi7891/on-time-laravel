@@ -37,12 +37,26 @@ function CartItem({ idx, product, last = false }) {
                 leaveFrom="translate-x-0"
                 leaveTo="translate-x-full"
             >
-                <div className="h-32 object-contain flex-shrink-0 overflow-hidden border border-gray-200">
+                <div className="relative h-32 object-contain flex-shrink-0 overflow-hidden border border-gray-200">
                     <img
-                        src={product.images.front}
+                        src={`/storage/uploads/${cart.folder_name}/${product.images.front}`}
                         // alt={product.imageAlt}
                         className="h-full w-full object-cover object-center"
                     />
+                    {product.images.logo && (
+                        <img
+                            src={`/storage/uploads/${cart.folder_name}/${product.images.logo}`}
+                            // alt={product.imageAlt}
+                            className="absolute top-0 left-0 h-full w-full object-cover object-center"
+                        />
+                    )}
+                    {product.images.custom && (
+                        <img
+                            src={`/storage/uploads/${cart.folder_name}/${product.images.custom}`}
+                            // alt={product.imageAlt}
+                            className="absolute top-0 left-0 h-full w-full object-cover object-center"
+                        />
+                    )}
                 </div>
 
                 <div className="ml-4 flex flex-1 flex-col">

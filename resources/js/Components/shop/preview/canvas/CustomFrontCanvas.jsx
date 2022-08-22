@@ -11,6 +11,7 @@ function CustomFrontCanvas({ className = "", color = "Gold" }) {
     const { product } = useContext(ProductContext);
     const { cart } = useContext(CartContext);
     const [show, setShow] = useState(false);
+    const [page, setPage] = useState();
     const { red, green, blue } = EMBOSSING_COLORS[color];
 
     const changeColor = () => {
@@ -37,14 +38,7 @@ function CustomFrontCanvas({ className = "", color = "Gold" }) {
     };
 
     const setPdf = async () => {
-        const pdfJS = await import("pdfjs-dist/build/pdf");
-        pdfJS.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.js";
-        const url = `/storage/uploads/${cart.folder_name}/praegungPdf.pdf`;
-        const pdf = await pdfJS.getDocument(url).promise;
-
-        const page = await pdf.getPage(1);
-        console.log(page);
-
+        if (!page) return;
         const viewport = page.getViewport({ scale: 1 });
 
         const canvas = canvasRef.current;
@@ -66,6 +60,27 @@ function CustomFrontCanvas({ className = "", color = "Gold" }) {
         });
     };
 
+    const getPage = async () => {
+        const pdfJS = await import("pdfjs-dist/build/pdf");
+        pdfJS.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.js";
+        const url = `/storage/uploads/${cart.folder_name}/praegungPdf.pdf`;
+        const pdf = await pdfJS.getDocument(url).promise;
+
+        const pg = await pdf.getPage(1);
+        setPage(pg);
+        return pg;
+    };
+
+    useEffect(() => {
+        (async function () {
+            await getPage();
+        })();
+    }, []);
+
+    // useEffect(() => {
+    //     changeColor();
+    // }, []);
+
     useEffect(() => {
         (async function () {
             if (
@@ -81,13 +96,15 @@ function CustomFrontCanvas({ className = "", color = "Gold" }) {
             }
         })();
     }, [
-        JSON.stringify(product.embossing_options.color),
         JSON.stringify(product.embossing_options.custom),
         JSON.stringify(product.embossing_options.custom_options),
+        JSON.stringify(product.embossing_options.color),
+        page,
     ]);
 
     return (
         <canvas
+            id="customCanvas"
             className={`max-h-[300px] sm:max-h-canvas m-0 ${className} ${
                 show ? "block" : "hidden"
             }`}

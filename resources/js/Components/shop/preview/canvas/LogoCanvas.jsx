@@ -68,6 +68,7 @@ function LogoCanvas({ className = "", color = "Gold" }) {
 
     return (
         <canvas
+            id="logoCanvas"
             className={`max-h-[300px] sm:max-h-canvas m-0 ${className} block`}
             height={frontSizes?.height}
             width={frontSizes?.width}

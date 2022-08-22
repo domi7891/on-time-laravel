@@ -16,14 +16,23 @@ export function CartProvider({ children }) {
         });
     }, []);
 
-    const reloadCart = () => {
-        get("/basket/get").then((res) => {
-            setCart(res.data);
-        });
+    const reloadCart = async () => {
+        const res = await get("/basket/get");
+        setCart(res.data);
     };
 
-    const addToCart = (product) => {
-        post("/basket/addProduct", product).then((res) => {
+    const addToCart = (product, frontData, backData, logoData, customData) => {
+        let data = { product, frontData };
+        if (backData) {
+            data = { ...data, backData };
+        }
+        if (logoData) {
+            data = { ...data, logoData };
+        }
+        if (customData) {
+            data = { ...data, customData };
+        }
+        post("/basket/addProduct", data).then((res) => {
             if (!res.data.success || res.data.error) {
                 createToast("Achtung!", res.data.error, true);
             } else {
@@ -59,6 +68,12 @@ export function CartProvider({ children }) {
         return cart.items?.length;
     };
 
+    // const setFolderName = (folder_name) => {
+    //     setCart((oldValue) => {
+    //         return { ...oldValue, folder_name };
+    //     });
+    // };
+
     return (
         <CartContext.Provider
             value={{
@@ -68,6 +83,7 @@ export function CartProvider({ children }) {
                 reloadCart,
                 changeProduct,
                 productCount,
+                // setFolderName,
             }}
         >
             {children}

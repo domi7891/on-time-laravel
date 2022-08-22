@@ -10,6 +10,7 @@ import {
 import React, { useContext, useEffect, useRef, useState } from "react";
 
 function ImageCanvas({
+    id,
     imageUrl,
     className = "",
     text,
@@ -111,6 +112,7 @@ function ImageCanvas({
 
     return (
         <canvas
+            id={id}
             className={`max-h-[300px] sm:max-h-canvas m-0 ${className}`}
             height={isFront ? frontSizes?.height : sideSizes?.height}
             width={isFront ? frontSizes?.width : sideSizes?.width}

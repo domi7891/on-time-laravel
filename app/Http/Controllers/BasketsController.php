@@ -40,7 +40,8 @@ class BasketsController extends Controller
 
     public function addItemToCart(Request $request)
     {
-        $product = $request->all();
+        $inputs = $request->all();
+        $product = $inputs['product'];
         if (count($request->session()->get('cart.items')) == 0 && !isset($product['pdf'])) return array('success' => false, 'error' => "Es wurde keine Arbeit hochgeladen!");
         $pricesCont = new ProductPricesController();
         $totals = $pricesCont->calculatePrice($request, true);
@@ -53,6 +54,26 @@ class BasketsController extends Controller
             $request->session()->put('cart.pdf', $pdf);
         }
         unset($product['pdf']);
+
+        $frontImage = saveImage($inputs['frontData'], $request->session()->get('cart.folder_name'), 'front');
+        $images = array('front' => $frontImage);
+
+        if (isset($inputs['backData'])) {
+            $backImage = saveImage($inputs['backData'], $request->session()->get('cart.folder_name'), 'back');
+            $images['back'] = $backImage;
+        }
+
+        if (isset($inputs['logoData'])) {
+            $logoImage = saveImage($inputs['logoData'], $request->session()->get('cart.folder_name'), 'logo');
+            $images['logo'] = $logoImage;
+        }
+
+        if (isset($inputs['customData'])) {
+            $customImage = saveImage($inputs['customData'], $request->session()->get('cart.folder_name'), 'custom');
+            $images['custom'] = $customImage;
+        }
+
+        $product['images'] = $images;
         $request->session()->push('cart.items', $product);
         return $request->session()->get('cart');
     }

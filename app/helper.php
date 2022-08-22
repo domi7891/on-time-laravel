@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 if (!function_exists('calc_totals')) {
   function calc_totals($cart)
@@ -101,5 +102,19 @@ if (!function_exists('countPDFPages')) {
     }
 
     return $pagecount;
+  }
+}
+
+if (!function_exists('saveImage')) {
+  function saveImage($base64, $folder, $name)
+  {
+    $base64Image = explode(";base64,", $base64);
+    $explodeImage = explode("image/", $base64Image[0]);
+    $imageType = $explodeImage[1];
+    $image_base64 = base64_decode($base64Image[1]);
+    $fileName = $name . "_" . uniqid() . '.' . $imageType;
+    $file = 'uploads/' . $folder . '/' . $fileName;
+    Storage::disk('public')->put($file, $image_base64, 'public');
+    return $fileName;
   }
 }

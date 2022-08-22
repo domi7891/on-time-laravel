@@ -54,7 +54,21 @@ function Product() {
     }, [open]);
 
     const addProduct = () => {
-        addToCart(product);
+        const frontData = document.querySelector("#frontCanvas").toDataURL();
+
+        const backCanvas = document.querySelector("#backCanvas");
+        let backData = null;
+        if (backCanvas) backData = backCanvas.toDataURL();
+
+        const logoCanvas = document.querySelector("#logoCanvas");
+        let logoData = null;
+        if (logoCanvas) logoData = logoCanvas.toDataURL();
+
+        const customCanvas = document.querySelector("#customCanvas");
+        let customData = null;
+        if (customCanvas) customData = customCanvas.toDataURL();
+
+        addToCart(product, frontData, backData, logoData, customData);
     };
 
     return (

@@ -9,11 +9,13 @@ class ProductController extends Controller
 {
   public function uploadPdf(Request $request)
   {
+    $folder_created = false;
     if (count($request->session()->get('cart.items')) > 0) return array('error' => true, 'msg' => 'Es wurde bereits eine Arbeit hochgeladen!');
     $pdfName = 'arbeit_zum_drucken.pdf';
     if (!$request->session()->has('cart.folder_name')) {
       $folderName = date('Ymd') . '_' . $request->session()->get('cart.basket_id');
       $request->session()->put('cart.folder_name', $folderName);
+      $folder_created = true;
     }
     $path = 'orders/' . $request->session()->get('cart.folder_name');
     if (!Storage::exists($path)) {
@@ -26,7 +28,7 @@ class ProductController extends Controller
     );
 
     $pages = countPDFPages($out);
-    return array('pdf' => array('name' => $pdfName, 'display_name' => $file->getClientOriginalName()), 'pages' => $pages);
+    return array('folder_created' => $folder_created, 'pdf' => array('name' => $pdfName, 'display_name' => $file->getClientOriginalName()), 'pages' => $pages);
   }
 
   public function removePdf(Request $request, $name = null)
@@ -48,9 +50,11 @@ class ProductController extends Controller
   public function uploadCustom(Request $request)
   {
     // if (count($request->session()->get('cart.items')) > 0) return array('error' => true, 'msg' => 'Es wurde bereits eine Arbeit hochgeladen!');
+    $folder_created = false;
     if (!$request->session()->has('cart.folder_name')) {
       $folderName = date('Ymd') . '_' . $request->session()->get('cart.basket_id');
       $request->session()->put('cart.folder_name', $folderName);
+      $folder_created = true;
     }
     $path = 'orders/' . $request->session()->get('cart.folder_name');
     $public_path = 'uploads/' . $request->session()->get('cart.folder_name');
@@ -69,7 +73,7 @@ class ProductController extends Controller
       $pdfName,
     );
 
-    return array('custom' => array('name' => $pdfName, 'display_name' => $file->getClientOriginalName()));
+    return array('folder_created' => $folder_created, 'custom' => array('name' => $pdfName, 'display_name' => $file->getClientOriginalName()));
   }
 
   public function removeCustom(Request $request, $name = null)
