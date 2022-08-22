@@ -277,6 +277,16 @@ export function ProductProvider({ type, initProduct, children }) {
         });
     };
 
+    const changeEmbossingBack = (newVals) => {
+        setProduct((oldValue) => {
+            const { embossing_options } = oldValue;
+            let { back_text } = embossing_options;
+            back_text = { ...back_text, ...newVals };
+            embossing_options["back_text"] = back_text;
+            return { ...oldValue, embossing_options };
+        });
+    };
+
     const removeKey = (key) => {
         let { ...rest } = oldValue;
         setProduct((oldValue) => {
@@ -338,6 +348,7 @@ export function ProductProvider({ type, initProduct, children }) {
                 changeEmbossingLogo,
                 changeEmbossingText,
                 changeEmbossingTextMulitple,
+                changeEmbossingBack,
                 changeProduct,
                 changeProductMultiple,
                 removeKey,
