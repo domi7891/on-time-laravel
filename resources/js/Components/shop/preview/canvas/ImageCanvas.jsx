@@ -61,12 +61,12 @@ function ImageCanvas({
         posTop = product.embossing_options.schoollogo
             ? canvas.height / 3.1
             : canvas.height / 4.5;
-        if (product.embossing && product.embossing_options.has_text && text) {
-            if (isFront) {
+        if (product.embossing && text) {
+            if (isFront && product.embossing_options.front) {
                 Object.entries(text).forEach(([key, value], idx) => {
                     draw(value, canvas, context);
                 });
-            } else {
+            } else if (product.embossing_options.back) {
                 draw(text, canvas, context);
             }
         }

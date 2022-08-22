@@ -181,6 +181,46 @@ const changeImageColor = (canvas, context, x, y, color) => {
     context.putImageData(pixelData, x, y);
 };
 
+function changePdfColor(
+    canvas,
+    context,
+    image_data,
+    red,
+    green,
+    blue,
+    setShow
+) {
+    let image = new Image();
+    image.onload = function () {
+        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+        let pixelData = context.getImageData(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < pixelData.data.length; i += 4) {
+            let setPixel = {
+                r: pixelData.data[i],
+                g: pixelData.data[i + 1],
+                b: pixelData.data[i + 2],
+                a: pixelData.data[i + 3],
+            };
+            if (setPixel.r == 255 && setPixel.g == 255 && setPixel.b == 255) {
+                pixelData.data[i] = 0;
+                pixelData.data[i + 1] = 0;
+                pixelData.data[i + 2] = 0;
+                pixelData.data[i + 3] = 0;
+            } else {
+                if (red && green && blue) {
+                    pixelData.data[i] = red;
+                    pixelData.data[i + 1] = green;
+                    pixelData.data[i + 2] = blue;
+                }
+            }
+        }
+        context.putImageData(pixelData, 0, 0);
+        setShow(true);
+        //   canvas.classList.add('show')
+    };
+    image.src = image_data;
+}
+
 const getCookie = function (name) {
     var match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
     if (match) return match[2];
@@ -199,6 +239,7 @@ export {
     capitalizeFirstLetter,
     calcFontSize,
     changeImageColor,
+    changePdfColor,
     drawFrontText,
     drawSideText,
     mapColor,

@@ -94,6 +94,8 @@ Route::prefix('/product')->group(function () {
     Route::post('/calculatePrice', [ProductPricesController::class, 'calculatePrice']);
     Route::post('/pdf', [ProductController::class, 'uploadPdf']);
     Route::post('/removePdf', [ProductController::class, 'removePdf']);
+    Route::post('/custom', [ProductController::class, 'uploadCustom']);
+    Route::post('/removeCustom', [ProductController::class, 'removeCustom']);
     // Route::get('/get', [BasketsController::class, 'retrieveBasket']);
     // Route::post('/addProduct', [BasketsController::class, 'addItemToCart'])->middleware('calc');
     // Route::post('/removeProduct', [BasketsController::class, 'removeItemFromCart'])->middleware('calc');
