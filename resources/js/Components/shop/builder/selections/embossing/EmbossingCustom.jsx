@@ -9,8 +9,8 @@ import CartContext from "@/Components/context/CartContext";
 
 function EmbossingCustom() {
     const { product, changeEmbossingOptions } = useContext(ProductContext);
+    const { reloadCart } = useContext(CartContext);
 
-    console.log(product.embossing_options);
     const changeCustom = (title, e) => {
         const value = e.target.value == "true";
         changeEmbossingOptions("custom", value);
@@ -33,6 +33,9 @@ function EmbossingCustom() {
         if (res.data.error) {
             createToast("Nicht Möglich!", res.data.msg, true);
         } else {
+            if (res.data.folder_created) {
+                await reloadCart();
+            }
             changeEmbossingOptions("custom_options", res.data.custom);
         }
     };

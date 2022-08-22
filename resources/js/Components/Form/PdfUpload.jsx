@@ -19,8 +19,6 @@ function PdfUpload({
     const input = useRef();
     const [file, setFile] = useState(constantFile);
 
-    console.log(constantFile, hasFile);
-
     const [upload, setUpload] = useState({
         uploading: false,
         progress: 0,

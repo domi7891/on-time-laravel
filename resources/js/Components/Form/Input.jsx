@@ -14,6 +14,8 @@ export default function Input({
     isFocused,
     handleChange = () => {},
     children,
+    hasAddon = false,
+    addonText,
 }) {
     const input = useRef();
 

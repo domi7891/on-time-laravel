@@ -65,7 +65,7 @@ const BASE_PRODUCT = {
             position: "Links- und Rechtsbündig",
             left: "Diplomarbeit",
             right: "2022",
-            text: "Diplomarbeit",
+            text: "Diplomarbeit 2022",
             size: "5.5mm",
         },
     },

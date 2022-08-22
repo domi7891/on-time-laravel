@@ -147,7 +147,7 @@ const drawSideText = (canvas, context, text, { red, green, blue }) => {
                 context.rotate(1.5 * Math.PI);
                 context.fillText(right, -10, 0);
                 break;
-            case "Linksbündig mit Rand":
+            case "Linksbündig mit 5cm Abstand":
                 context.translate(canvas.width / 2, canvas.height);
                 context.rotate(1.5 * Math.PI);
                 context.fillText(centerText, 50, 0);

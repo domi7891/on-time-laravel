@@ -11,7 +11,7 @@ import Hint from "@/Components/Hint";
 
 function PdfSelection() {
     const { product, changeProductMultiple } = useContext(ProductContext);
-    const { cart } = useContext(CartContext);
+    const { cart, reloadCart } = useContext(CartContext);
     const { createToast } = useContext(ToastContext);
 
     const onAdd = async (e, setUpload) => {
@@ -31,6 +31,9 @@ function PdfSelection() {
         if (res.data.error) {
             createToast("Nicht Möglich!", res.data.msg, true);
         } else {
+            if (res.data.folder_created) {
+                await reloadCart();
+            }
             changeProductMultiple({
                 pdf: res.data.pdf,
                 pages: res.data.pages,

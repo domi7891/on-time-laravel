@@ -100,7 +100,6 @@ function EmbossingTextFront() {
             <Spacer />
             <div className="pt-2 space-y-3 pl-2 overflow-x-auto">
                 {Object.entries(texts).map(([key, value], idx) => {
-                    console.log(value);
                     return (
                         <div
                             key={idx}

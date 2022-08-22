@@ -180,8 +180,7 @@ class ProductPricesController extends Controller
     {
         $in = $request->all();
         $data = $in;
-        if (!$adding)
-            $data = $in['product'];
+        $data = $in['product'];
         $pages = $data['pages'];
         if ($pages == "" || is_null($pages)) $pages = 0;
         $material =  array_key_exists('material', $data) ? $data['material'] : null;

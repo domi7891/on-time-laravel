@@ -28,6 +28,7 @@ function ProductPreview({ className }) {
                     >
                         <div className="w-full relative mx-auto">
                             <ImageCanvas
+                                id="frontCanvas"
                                 imageUrl={frontImage}
                                 isFront={true}
                                 text={
@@ -62,6 +63,7 @@ function ProductPreview({ className }) {
                         >
                             <div className="relative w-min mx-auto">
                                 <ImageCanvas
+                                    id="backCanvas"
                                     imageUrl={sideImage}
                                     title="side"
                                     text={
