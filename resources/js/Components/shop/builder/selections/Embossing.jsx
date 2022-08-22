@@ -6,6 +6,7 @@ import EmbossingCustom from "./embossing/EmbossingCustom";
 import EmbossingLogo from "./embossing/EmbossingLogo";
 import EmbossingMethod from "./embossing/EmbossingMethod";
 import EmbossingPosition from "./embossing/EmbossingPosition";
+import EmbossingTextBack from "./embossing/EmbossingTextBack";
 import EmbossingTextFront from "./embossing/EmbossingTextFront";
 
 function Embossing() {
@@ -47,10 +48,10 @@ function Embossing() {
                     {product.embossing_options.method == "Digitalprägung" && (
                         <EmbossingCustom />
                     )}
-                    {!checkHasCustom() &&
-                        product.embossing_options.text.front && (
-                            <EmbossingTextFront />
-                        )}
+                    {!checkHasCustom() && product.embossing_options.front && (
+                        <EmbossingTextFront />
+                    )}
+                    {product.embossing_options.back && <EmbossingTextBack />}
                     {/* <EmbossingSchoolLogo current={product.embossing_options.color} /> */}
                 </>
             )}
