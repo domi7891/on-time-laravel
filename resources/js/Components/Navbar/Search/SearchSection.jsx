@@ -31,7 +31,7 @@ function SearchSection() {
                     }`}
                 >
                     <div
-                        className={`hidden sm:block w-0 active:w-full group-hover:w-full transition-all duration-300 overflow-hidden focus-within:!w-full ${
+                        className={`hidden sm:block w-0 active:w-full group-hover:w-full transition-all duration-300 overflow-hidden group-focus-within:!w-full focus-within:!w-full ${
                             searchActive() ? "!w-full" : ""
                         }`}
                     >
