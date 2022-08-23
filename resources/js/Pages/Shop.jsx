@@ -17,8 +17,8 @@ import A3Selection from "@/Components/shop/builder/A3Selection";
 import RemarkSelection from "@/Components/shop/builder/RemarkSelection";
 import { Head } from "@inertiajs/inertia-react";
 
-function Shop({ facility, type }) {
-    const product = BASE_PRODUCT;
+function Shop({ facility, type, product }) {
+    const initProduct = product ?? BASE_PRODUCT;
     const [show, setShow] = useState(false);
 
     useEffect(() => {
@@ -29,7 +29,7 @@ function Shop({ facility, type }) {
     return (
         <>
             <Head title="OnTime | Shop" />
-            <ProductProvider type={type} initProduct={product}>
+            <ProductProvider type={type} initProduct={initProduct}>
                 <PreviewProvider>
                     {show && (
                         <div

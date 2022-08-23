@@ -70,6 +70,9 @@ export default function Cart({ open, setOpen }) {
                                                         {cart?.items?.map(
                                                             (product, idx) => (
                                                                 <CartItem
+                                                                    setOpen={
+                                                                        setOpen
+                                                                    }
                                                                     idx={idx}
                                                                     key={idx}
                                                                     product={

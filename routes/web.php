@@ -49,6 +49,20 @@ Route::prefix('/shop')->group(function () {
     Route::get('/{fac}/{type}', function (Request $request, $fac, $type) {
         return Inertia::render('Shop', ['facility' => $fac, 'type' => $type]);
     });
+    Route::get('/{id}', function (Request $request, $id) {
+        $items = $request->session()->get('cart.items');
+        $items = array_values(array_filter($items, function ($item) use ($id) {
+            return $item['productId'] == $id;
+        }));
+        if (count($items) == 1) {
+            return Inertia::render('Shop', ['product' => $items[0],]);
+        } else {
+            return Inertia::render('NotFound', [
+                'notFound' => true,
+            ]);
+        }
+        // return $items;
+    });
     // Route::post('/create', [RatingController::class, 'createRating']);
     // Route::get('/get', [RatingController::class, 'getRatings']);
 });

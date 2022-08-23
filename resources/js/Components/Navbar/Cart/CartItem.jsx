@@ -1,11 +1,11 @@
 import CartContext from "@/Components/context/CartContext";
+import CustomLink from "@/Components/CustomLink";
 import Dropdown from "@/Components/Form/Dropdown";
 import { formatePrice } from "@/utils/helpers";
 import { Transition } from "@headlessui/react";
-import { remove } from "lodash";
 import React, { useContext, useEffect, useState } from "react";
 
-function CartItem({ idx, product, last = false }) {
+function CartItem({ idx, product, last = false, setOpen }) {
     const { cart, removeProduct, changeProduct } = useContext(CartContext);
     const [isShowing, setIsShowing] = useState(true);
 
@@ -62,10 +62,15 @@ function CartItem({ idx, product, last = false }) {
                 <div className="ml-4 flex flex-1 flex-col">
                     <div>
                         <div className="flex justify-between text-base font-medium text-gray-900">
-                            <h3>
-                                {product.type} {product.material} -{" "}
-                                {product.color}
-                            </h3>
+                            <CustomLink
+                                href={`/shop/${product.productId}`}
+                                onClick={() => setOpen(false)}
+                            >
+                                <h3>
+                                    {product.type} {product.material} -{" "}
+                                    {product.color}
+                                </h3>
+                            </CustomLink>
                             <p className="ml-4 min-w-fit">
                                 {formatePrice(product.totals.total)}
                             </p>
